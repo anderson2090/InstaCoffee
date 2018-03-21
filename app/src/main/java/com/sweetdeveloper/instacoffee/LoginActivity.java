@@ -1,6 +1,8 @@
 package com.sweetdeveloper.instacoffee;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
@@ -9,6 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -37,11 +44,23 @@ public class LoginActivity extends AppCompatActivity {
 
     Validator validator;
 
+    FirebaseAuth firebaseAuth;
+    FirebaseAuth.AuthStateListener fireBaseAuthStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        firebaseAuth = FirebaseAuth.getInstance();
 
+        fireBaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                }
+            }
+        };
 
         emailEditText = findViewById(R.id.email_edit_text);
         userNameEditText = findViewById(R.id.user_name_edit_text);
@@ -82,9 +101,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onValidationSucceeded() {
                 if (loginButton.getText().toString().equals(getString(R.string.login))) {
-                    informUserviaToast("Logging in...");
+                    informUserViaToast("Logging in...");
                 } else {
-                    informUserviaToast("Signing up...");
+                    informUserViaToast("Signing up...");
+                    createAccount();
+
                 }
             }
 
@@ -98,13 +119,27 @@ public class LoginActivity extends AppCompatActivity {
                     if (view instanceof EditText) {
                         ((EditText) view).setError(message);
                     } else {
-                        informUserviaToast(message);
+                        informUserViaToast(message);
                     }
                 }
             }
         });
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(fireBaseAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (fireBaseAuthStateListener != null) {
+            firebaseAuth.removeAuthStateListener(fireBaseAuthStateListener);
+        }
     }
 
     @Override
@@ -140,7 +175,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void informUserviaToast(String message) {
+    public void createAccount() {
+        firebaseAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
+                passwordEditText.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                informUserViaToast(e.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void informUserViaToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

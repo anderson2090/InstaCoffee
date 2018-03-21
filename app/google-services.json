@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "445515879499",
+    "firebase_url": "https://instacoffee-7bea4.firebaseio.com",
+    "project_id": "instacoffee-7bea4",
+    "storage_bucket": "instacoffee-7bea4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445515879499:android:a3553da3a880fc68",
+        "android_client_info": {
+          "package_name": "com.sweetdeveloper.instacoffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445515879499-sg8b8igqos4u85cvftut75n98gabph52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sweetdeveloper.instacoffee",
+            "certificate_hash": "bbdac9d2f3090472e95e0cc0a6c660cdc1ddde74"
+          }
+        },
+        {
+          "client_id": "445515879499-gt2kmh945pv1fet94bqe6vp4bn14l1s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcHitVM6WrXhySw0HwcjVankQBMPqA6Ds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445515879499-gt2kmh945pv1fet94bqe6vp4bn14l1s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
