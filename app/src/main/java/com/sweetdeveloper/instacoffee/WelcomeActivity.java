@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends RootActivity {
 
     FirebaseAuth firebaseAuth;
 

@@ -19,7 +19,9 @@
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".RootActivity"></activity>
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/forest_raven"
+    android:background="@drawable/forest_raven__darker"
     tools:context="com.sweetdeveloper.instacoffee.LoginActivity">
 
     <ImageView
@@ -63,6 +63,15 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/dark_green"
              />
+        <TextView
+            android:id="@+id/forgot_password_text_view"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:text="@string/forgot_password"
+            android:textColor="@color/dark_green"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout

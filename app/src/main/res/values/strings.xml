@@ -11,4 +11,7 @@
     <string name="or_login"><u>Or Login</u></string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="signout">Signout</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reser_pw_instructions">Instructions to reset password has been sent to your e-mail address</string>
 </resources>

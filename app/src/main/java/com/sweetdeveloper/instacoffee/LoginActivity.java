@@ -25,7 +25,7 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends RootActivity {
 
     @NotEmpty
     @Email
@@ -39,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     @ConfirmPassword
     EditText confirmPasswordEditText;
 
-    TextView orSignUpTextView;
+    TextView orSignUpTextView, forgotPasswordTextView;
+
     Button loginButton;
 
     Validator validator;
@@ -68,6 +69,13 @@ public class LoginActivity extends AppCompatActivity {
         confirmPasswordEditText = findViewById(R.id.confirm_password_edit_text);
         loginButton = findViewById(R.id.login_button);
         orSignUpTextView = findViewById(R.id.or_sign_up_text_view);
+        forgotPasswordTextView = findViewById(R.id.forgot_password_text_view);
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
+            }
+        });
         orSignUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,7 +221,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void informUserViaToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
+
 }
