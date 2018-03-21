@@ -102,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onValidationSucceeded() {
                 if (loginButton.getText().toString().equals(getString(R.string.login))) {
                     informUserViaToast("Logging in...");
+                    logIn();
+
                 } else {
                     informUserViaToast("Signing up...");
                     createAccount();
@@ -177,6 +179,24 @@ public class LoginActivity extends AppCompatActivity {
 
     public void createAccount() {
         firebaseAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(),
+                passwordEditText.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                informUserViaToast(e.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void logIn() {
+        firebaseAuth.signInWithEmailAndPassword(emailEditText.getText().toString(),
                 passwordEditText.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
