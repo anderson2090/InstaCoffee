@@ -3,19 +3,23 @@ package com.sweetdeveloper.instacoffee;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -45,6 +49,8 @@ public class LoginActivity extends RootActivity {
 
     Validator validator;
 
+    ProgressBar progressBar;
+
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener fireBaseAuthStateListener;
 
@@ -54,14 +60,9 @@ public class LoginActivity extends RootActivity {
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        fireBaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
-                }
-            }
-        };
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+        }
 
         emailEditText = findViewById(R.id.email_edit_text);
         userNameEditText = findViewById(R.id.user_name_edit_text);
@@ -70,6 +71,7 @@ public class LoginActivity extends RootActivity {
         loginButton = findViewById(R.id.login_button);
         orSignUpTextView = findViewById(R.id.or_sign_up_text_view);
         forgotPasswordTextView = findViewById(R.id.forgot_password_text_view);
+        progressBar = findViewById(R.id.progress_bar);
         forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,13 +110,15 @@ public class LoginActivity extends RootActivity {
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
+                progressBar.setVisibility(View.VISIBLE);
                 if (loginButton.getText().toString().equals(getString(R.string.login))) {
-                    informUserViaToast("Logging in...");
+
                     logIn();
 
                 } else {
-                    informUserViaToast("Signing up...");
+
                     createAccount();
+
 
                 }
             }
@@ -138,19 +142,30 @@ public class LoginActivity extends RootActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(fireBaseAuthStateListener);
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        fireBaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                if (firebaseAuth.getCurrentUser() != null) {
+//                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+//                }
+//            }
+//        };
+//        firebaseAuth.addAuthStateListener(fireBaseAuthStateListener);
+//
+//
+//    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (fireBaseAuthStateListener != null) {
-            firebaseAuth.removeAuthStateListener(fireBaseAuthStateListener);
-        }
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (fireBaseAuthStateListener != null) {
+//            firebaseAuth.removeAuthStateListener(fireBaseAuthStateListener);
+//        }
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -192,15 +207,17 @@ public class LoginActivity extends RootActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                            setUserName();
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                informUserViaToast(e.getLocalizedMessage());
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        informUserViaToast(e.getLocalizedMessage());
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 
     public void logIn() {
@@ -210,6 +227,7 @@ public class LoginActivity extends RootActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            progressBar.setVisibility(View.GONE);
                             startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
                         }
                     }
@@ -217,8 +235,38 @@ public class LoginActivity extends RootActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 informUserViaToast(e.getLocalizedMessage());
+                progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void setUserName() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                .setDisplayName(userNameEditText.getText().toString()).build();
+
+
+        if (user != null) {
+
+            user.updateProfile(profileChangeRequest)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                progressBar.setVisibility(View.GONE);
+                                startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            informUserViaToast(e.getLocalizedMessage());
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+        }
+
     }
 
 
