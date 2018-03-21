@@ -7,4 +7,6 @@
     <string name="or_sign_up"><u>Or Sign Up</u></string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="or_login"><u>Or Login</u></string>
 </resources>
