@@ -1,28 +1,47 @@
 package com.sweetdeveloper.instacoffee;
 
-import android.opengl.Visibility;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @NotEmpty
+    @Email
     EditText emailEditText;
+    @NotEmpty
     EditText userNameEditText;
+    @NotEmpty
+    @Password
     EditText passwordEditText;
+    @NotEmpty
+    @ConfirmPassword
     EditText confirmPasswordEditText;
+
     TextView orSignUpTextView;
     Button loginButton;
 
+    Validator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         emailEditText = findViewById(R.id.email_edit_text);
         userNameEditText = findViewById(R.id.user_name_edit_text);
@@ -51,6 +70,40 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validator.validate();
+            }
+        });
+
+        validator = new Validator(this);
+        validator.setValidationListener(new Validator.ValidationListener() {
+            @Override
+            public void onValidationSucceeded() {
+                if (loginButton.getText().toString().equals(getString(R.string.login))) {
+                    informUserviaToast("Logging in...");
+                } else {
+                    informUserviaToast("Signing up...");
+                }
+            }
+
+            @Override
+            public void onValidationFailed(List<ValidationError> errors) {
+                for (ValidationError error : errors) {
+                    View view = error.getView();
+                    String message = error.getCollatedErrorMessage(getApplicationContext());
+
+                    // Display error messages
+                    if (view instanceof EditText) {
+                        ((EditText) view).setError(message);
+                    } else {
+                        informUserviaToast(message);
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -69,10 +122,10 @@ public class LoginActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             setHTMLText(orSignUpTextView, savedInstanceState.getString(getString(R.string.or_sign_up)));
             loginButton.setText(savedInstanceState.getString(getString(R.string.login)));
-            if(loginButton.getText().toString().equals(getString(R.string.sign_up))){
+            if (loginButton.getText().toString().equals(getString(R.string.sign_up))) {
                 userNameEditText.setVisibility(View.VISIBLE);
                 confirmPasswordEditText.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 userNameEditText.setVisibility(View.GONE);
                 confirmPasswordEditText.setVisibility(View.GONE);
             }
@@ -85,5 +138,9 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             textView.setText(Html.fromHtml("<u>" + text + "</u>"));
         }
+    }
+
+    public void informUserviaToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
