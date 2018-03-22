@@ -58,7 +58,11 @@ public class LoginActivity extends RootActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+            if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+            } else {
+                informUserViaToast(getString(R.string.verify_email_message));
+            }
         }
 
         emailEditText = findViewById(R.id.email_edit_text);
@@ -205,6 +209,7 @@ public class LoginActivity extends RootActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             setUserName();
+
                         }
                     }
                 })
@@ -218,17 +223,24 @@ public class LoginActivity extends RootActivity {
     }
 
     public void logIn() {
+
         firebaseAuth.signInWithEmailAndPassword(emailEditText.getText().toString(),
                 passwordEditText.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             progressBar.setVisibility(View.GONE);
-                            startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                            if (firebaseAuth.getCurrentUser() != null) {
+                                if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                                } else {
+                                    informUserViaToast(getString(R.string.verify_email_message));
+                                }
+                            }
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                }).addOnFailureListener(this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 informUserViaToast(e.getLocalizedMessage());
@@ -246,12 +258,13 @@ public class LoginActivity extends RootActivity {
         if (user != null) {
 
             user.updateProfile(profileChangeRequest)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                progressBar.setVisibility(View.GONE);
-                                startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+
+                                sendVerificationEmail();
+                                //   startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
                             }
                         }
                     })
@@ -264,6 +277,28 @@ public class LoginActivity extends RootActivity {
                     });
         }
 
+    }
+
+    public void sendVerificationEmail() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                progressBar.setVisibility(View.GONE);
+                                informUserViaToast(getString(R.string.confirmation_email_message));
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE);
+                    informUserViaToast(e.getLocalizedMessage());
+                }
+            });
+        }
     }
 
 

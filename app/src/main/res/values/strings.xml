@@ -19,4 +19,6 @@
     <string name="cancel">Cancel</string>
     <string name="password_has_been_chaged">Your password has been changed successfully!</string>
     <string name="password_has_been_changed">Your password has been changed successfully!</string>
+    <string name="confirmation_email_message">A confirmation email has been sent to your email address</string>
+    <string name="verify_email_message">Please verify your email</string>
 </resources>
