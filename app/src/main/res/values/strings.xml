@@ -21,4 +21,10 @@
     <string name="password_has_been_changed">Your password has been changed successfully!</string>
     <string name="confirmation_email_message">A confirmation email has been sent to your email address</string>
     <string name="verify_email_message">Please verify your email</string>
+    <string name="title_activity_welcome2">WelcomeActivity2</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
