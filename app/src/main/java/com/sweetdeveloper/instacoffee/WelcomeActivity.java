@@ -10,16 +10,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
+import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 
-public class WelcomeActivity extends RootActivity {
+public class WelcomeActivity extends RootActivity implements ProgressBarListener {
 
     FirebaseAuth firebaseAuth;
     TextView welcomeTextView;
     FirebaseUser user;
+    ProgressBar progressBar;
+    final String CHANGE_PASSWORD_FRAGMENT_TAG = "CHANGE PASSWORD FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class WelcomeActivity extends RootActivity {
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        progressBar = findViewById(R.id.welcome_activity_progress_bar);
         firebaseAuth = FirebaseAuth.getInstance();
         welcomeTextView = findViewById(R.id.welcome_text_view);
         user = firebaseAuth.getCurrentUser();
@@ -61,7 +67,19 @@ public class WelcomeActivity extends RootActivity {
             firebaseAuth.signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             return true;
+        } else if (item.getItemId() == R.id.menu_change_password) {
+            new ChangePasswordDialogFragment().show(getSupportFragmentManager(), CHANGE_PASSWORD_FRAGMENT_TAG);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void displayProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }
