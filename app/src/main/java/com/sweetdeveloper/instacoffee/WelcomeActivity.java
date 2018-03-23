@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,11 +16,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
+import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProgressBarListener {
@@ -27,6 +35,8 @@ public class WelcomeActivity extends AppCompatActivity
     TextView userName, userEmail;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference firebaseDatbaseReference;
     ProgressBar progressBar;
     final String CHANGE_PASSWORD_FRAGMENT_TAG = "CHANGE PASSWORD FRAGMENT";
 
@@ -39,6 +49,25 @@ public class WelcomeActivity extends AppCompatActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatbaseReference = firebaseDatabase.getReference("coffeeList");
+        firebaseDatbaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    CoffeeMenuItem coffeeMenuItem = child.getValue(CoffeeMenuItem.class);
+                    Log.i("NAMEEEE", coffeeMenuItem.getName());
+                    Log.i("IMAGEEE", coffeeMenuItem.getImage());
+                    Log.i("DESCCCC", coffeeMenuItem.getDescription());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), databaseError.getDetails(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         progressBar = findViewById(R.id.welcome_activity_progress_bar);
 
