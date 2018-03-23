@@ -34,6 +34,8 @@ import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
 
+import java.util.ArrayList;
+
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProgressBarListener {
 
@@ -181,7 +183,13 @@ public class WelcomeActivity extends AppCompatActivity
 
     public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.ViewHolder> {
 
-        private String[] menuItems = {"One", "Two", "Three"};
+        private ArrayList<String> menuItems = new ArrayList<>();
+
+        public MenuRecyclerAdapter() {
+            for (int i = 0; i < 100; i++) {
+                menuItems.add("Item " + i);
+            }
+        }
 
         @NonNull
         @Override
@@ -193,12 +201,12 @@ public class WelcomeActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
-            holder.itemNameTextView.setText(menuItems[position]);
+            holder.itemNameTextView.setText(menuItems.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return menuItems.length;
+            return menuItems.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
