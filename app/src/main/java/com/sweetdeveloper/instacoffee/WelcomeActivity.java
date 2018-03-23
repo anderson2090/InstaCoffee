@@ -2,9 +2,13 @@ package com.sweetdeveloper.instacoffee;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,9 @@ public class WelcomeActivity extends AppCompatActivity
     FirebaseDatabase firebaseDatabase;
     DatabaseReference firebaseDatbaseReference;
     ProgressBar progressBar;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
     final String CHANGE_PASSWORD_FRAGMENT_TAG = "CHANGE PASSWORD FRAGMENT";
 
     @Override
@@ -46,6 +54,14 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recyclerView = findViewById(R.id.menu_items_recycler_view);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new MenuRecyclerAdapter();
+        recyclerView.setAdapter(adapter);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -161,5 +177,37 @@ public class WelcomeActivity extends AppCompatActivity
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.ViewHolder> {
+
+        private String[] menuItems = {"One", "Two", "Three"};
+
+        @NonNull
+        @Override
+        public MenuRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_card, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
+            holder.itemNameTextView.setText(menuItems[position]);
+        }
+
+        @Override
+        public int getItemCount() {
+            return menuItems.length;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            public TextView itemNameTextView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                itemNameTextView = itemView.findViewById(R.id.menu_card_item_name_text_view);
+            }
+        }
     }
 }
