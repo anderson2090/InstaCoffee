@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
@@ -57,13 +59,6 @@ public class WelcomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recyclerView = findViewById(R.id.menu_items_recycler_view);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MenuRecyclerAdapter();
-        recyclerView.setAdapter(adapter);
-
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -73,12 +68,17 @@ public class WelcomeActivity extends AppCompatActivity
         firebaseDatbaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<CoffeeMenuItem> coffeeMenuItems = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     CoffeeMenuItem coffeeMenuItem = child.getValue(CoffeeMenuItem.class);
-                    Log.i("NAMEEEE", coffeeMenuItem.getName());
-                    Log.i("IMAGEEE", coffeeMenuItem.getImage());
-                    Log.i("DESCCCC", coffeeMenuItem.getDescription());
+                    coffeeMenuItems.add(coffeeMenuItem);
                 }
+                recyclerView = findViewById(R.id.menu_items_recycler_view);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter = new MenuRecyclerAdapter(coffeeMenuItems);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -183,12 +183,12 @@ public class WelcomeActivity extends AppCompatActivity
 
     public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.ViewHolder> {
 
-        private ArrayList<String> menuItems = new ArrayList<>();
 
-        public MenuRecyclerAdapter() {
-            for (int i = 0; i < 100; i++) {
-                menuItems.add("Item " + i);
-            }
+        private ArrayList<CoffeeMenuItem> menuItems = new ArrayList<>();
+
+        public MenuRecyclerAdapter(ArrayList<CoffeeMenuItem> menuItems) {
+
+            this.menuItems = menuItems;
         }
 
         @NonNull
@@ -201,7 +201,11 @@ public class WelcomeActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
-            holder.itemNameTextView.setText(menuItems.get(position));
+            holder.itemNameTextView.setText(menuItems.get(position).getName());
+            Picasso.get().load(menuItems.get(position).getImage())
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_placeholder)
+                    .into(holder.coffeeImage);
         }
 
         @Override
@@ -211,10 +215,12 @@ public class WelcomeActivity extends AppCompatActivity
 
         class ViewHolder extends RecyclerView.ViewHolder {
             public TextView itemNameTextView;
+            public ImageView coffeeImage;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 itemNameTextView = itemView.findViewById(R.id.menu_card_item_name_text_view);
+                coffeeImage = itemView.findViewById(R.id.menu_item_image);
             }
         }
     }
