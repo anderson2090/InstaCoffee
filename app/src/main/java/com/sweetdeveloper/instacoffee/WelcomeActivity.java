@@ -2,6 +2,7 @@ package com.sweetdeveloper.instacoffee;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,10 +51,11 @@ public class WelcomeActivity extends AppCompatActivity
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
+    Parcelable listState;
     final String CHANGE_PASSWORD_FRAGMENT_TAG = "CHANGE PASSWORD FRAGMENT";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,6 +81,9 @@ public class WelcomeActivity extends AppCompatActivity
 
                 adapter = new MenuRecyclerAdapter(coffeeMenuItems);
                 recyclerView.setAdapter(adapter);
+                if(savedInstanceState!=null){
+                    layoutManager.onRestoreInstanceState(listState);
+                }
             }
 
             @Override
@@ -169,6 +174,31 @@ public class WelcomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("state", listState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("state");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (layoutManager != null) {
+            if (listState != null) {
+                layoutManager.onRestoreInstanceState(listState);
+            }
+        }
     }
 
     @Override
