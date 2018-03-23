@@ -5,34 +5,30 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/ic_cup"
+            android:title="@string/menu" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_cart"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
+            android:title="@string/cart" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_list"
+            android:title="@string/orders" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_change_pw"
+            android:icon="@drawable/ic_lock_black_24dp"
+            android:title="@string/change_password" />
+        <item
+            android:id="@+id/nav_favourites"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favourites" />
+        <item
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_sign_out"
-                android:icon="@drawable/ic_logout"
-                android:title="@string/logout" />
-        </menu>
-    </item>
 
 </menu>
