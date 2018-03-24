@@ -49,6 +49,8 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, getString(R.string.no_items_cart), Toast.LENGTH_LONG).show();
             } else {
                 holder.itemName.setText(orders.get(position).getItemName());
+                holder.itemQuantity.setText(orders.get(position).getQuantity());
+                holder.itemPrice.setText(orders.get(position).getPrice());
             }
 
         }
