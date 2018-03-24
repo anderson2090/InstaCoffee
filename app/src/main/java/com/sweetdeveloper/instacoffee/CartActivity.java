@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +18,19 @@ import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
 
 public class CartActivity extends AppCompatActivity {
 
+    TextView cartTotalTextView;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     CartItemRecyclerAdapter adapter;
     Parcelable listState;
+    double total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        cartTotalTextView = findViewById(R.id.cart_total_text_view);
         recyclerView = findViewById(R.id.cart_recycler_view);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -35,6 +39,11 @@ public class CartActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             layoutManager.onRestoreInstanceState(listState);
         }
+
+        for (int i = 0; i <= orders.size() - 1; i++) {
+            total += Double.parseDouble(orders.get(i).getPrice());
+        }
+        cartTotalTextView.setText(total + "");
 
     }
 
@@ -63,6 +72,14 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+
+    public void subtractFromTotalOnItemDelete(int position) {
+        double oldPrice = Double.parseDouble(cartTotalTextView.getText().toString());
+        double newPrice = oldPrice - Double.parseDouble(orders.get(position).getPrice());
+        cartTotalTextView.setText(newPrice + "");
+
+    }
+
     class CartItemRecyclerAdapter extends RecyclerView.Adapter<CartItemRecyclerAdapter.ViewHolder> {
 
         @NonNull
@@ -81,7 +98,7 @@ public class CartActivity extends AppCompatActivity {
             } else {
                 holder.itemName.setText(orders.get(position).getItemName());
                 holder.itemQuantity.setText(orders.get(position).getQuantity());
-                holder.itemPrice.setText(orders.get(position).getPrice());
+                holder.itemPrice.setText("$" + orders.get(position).getPrice());
 
             }
 
@@ -109,9 +126,11 @@ public class CartActivity extends AppCompatActivity {
                 removeCartImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        subtractFromTotalOnItemDelete(getAdapterPosition());
                         orders.remove(getAdapterPosition());
-                        Toast.makeText(getApplicationContext(), getString(R.string.removed), Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
+
+
                     }
                 });
             }

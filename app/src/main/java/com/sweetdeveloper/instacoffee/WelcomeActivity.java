@@ -182,8 +182,10 @@ public class WelcomeActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        listState = layoutManager.onSaveInstanceState();
-        outState.putParcelable("state", listState);
+        if (layoutManager != null) {
+            listState = layoutManager.onSaveInstanceState();
+            outState.putParcelable("state", listState);
+        }
     }
 
     @Override

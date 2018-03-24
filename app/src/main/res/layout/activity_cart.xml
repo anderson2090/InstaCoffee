@@ -15,4 +15,29 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/cart_total_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_toEndOf="@id/cart_total_label"
+        android:textColor="@color/green"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        tools:text="@string/total" />
+
+    <TextView
+        android:id="@+id/cart_total_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="50dp"
+        android:textColor="@color/green"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:text="@string/total" />
 </RelativeLayout>
