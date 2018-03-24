@@ -19,12 +19,14 @@ public class DetailActivity extends AppCompatActivity {
 
     TextView nameTextView;
     TextView descriptionTextView;
+    TextView priceTextView;
     ImageView imageView;
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton cartFloatingActionButton;
     ElegantNumberButton numberButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,10 @@ public class DetailActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("coffeeList");
 
-        final Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         nameTextView = findViewById(R.id.detail_activity_coffee_name_text_view);
         descriptionTextView = findViewById(R.id.detail_activity_coffee_description_text_view);
+        priceTextView = findViewById(R.id.detail_activity_coffee_price_text_view);
         imageView = findViewById(R.id.detail_collapsing_tb_image_view);
         numberButton = findViewById(R.id.detail_activity_number_button);
         cartFloatingActionButton = findViewById(R.id.detail_activity_cart_button);
@@ -59,10 +62,13 @@ public class DetailActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String key = bundle.getString("key");
                     String description = null;
+                    String price = null;
                     if (key != null) {
                         description = dataSnapshot.child(key).child("description").getValue(String.class);
+                        price = dataSnapshot.child(key).child("price").getValue(String.class);
                     }
                     descriptionTextView.setText(description);
+                    priceTextView.setText(price);
                 }
 
                 @Override
