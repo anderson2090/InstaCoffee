@@ -1,6 +1,7 @@
 package com.sweetdeveloper.instacoffee;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     CartItemRecyclerAdapter adapter;
+    Parcelable listState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,35 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CartItemRecyclerAdapter();
         recyclerView.setAdapter(adapter);
+        if (savedInstanceState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("state", listState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("state");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (layoutManager != null) {
+            if (listState != null) {
+                layoutManager.onRestoreInstanceState(listState);
+            }
+        }
     }
 
     class CartItemRecyclerAdapter extends RecyclerView.Adapter<CartItemRecyclerAdapter.ViewHolder> {
