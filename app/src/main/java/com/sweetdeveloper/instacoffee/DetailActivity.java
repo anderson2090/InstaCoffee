@@ -15,15 +15,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.sweetdeveloper.instacoffee.models.Order;
 
-public class DetailActivity extends AppCompatActivity {
+import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
+
+public class DetailActivity extends RootActivity {
 
     TextView nameTextView;
     TextView descriptionTextView;
     TextView priceTextView;
     ImageView imageView;
     CollapsingToolbarLayout collapsingToolbarLayout;
-    FloatingActionButton cartFloatingActionButton;
+    FloatingActionButton cartAddOrderFloatingActionButton;
     ElegantNumberButton numberButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -44,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
         priceTextView = findViewById(R.id.detail_activity_coffee_price_text_view);
         imageView = findViewById(R.id.detail_collapsing_tb_image_view);
         numberButton = findViewById(R.id.detail_activity_number_button);
-        cartFloatingActionButton = findViewById(R.id.detail_activity_cart_button);
+        cartAddOrderFloatingActionButton = findViewById(R.id.detail_activity_cart_button);
         collapsingToolbarLayout = findViewById(R.id.detail_activity_collapsing_toolbar_layout);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expanded_app_bar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsed_app_bar);
@@ -85,6 +88,16 @@ public class DetailActivity extends AppCompatActivity {
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 double newPrice = Double.parseDouble(price) * newValue;
                 priceTextView.setText(newPrice + "");
+            }
+        });
+
+        cartAddOrderFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                orders.add(new Order(nameTextView.getText().toString(),
+                        priceTextView.getText().toString(),
+                        numberButton.getNumber() + ""));
+                informUserViaToast(getString(R.string.added_to_cart));
             }
         });
     }

@@ -35,4 +35,9 @@
     <string name="menu_item_image">Menu Item Image</string>
     <string name="coffee_image">Coffee Image</string>
     <string name="dollar_sign">Dollar Sign</string>
+    <string name="added_to_cart">Added To Cart</string>
+    <string name="quantity">Quantity: </string>
+    <string name="price">Price:</string>
+    <string name="no_items_cart">There Are No Items in the Cart</string>
+    <string name="remove_item_from_cart">Remove Item from cart</string>
 </resources>

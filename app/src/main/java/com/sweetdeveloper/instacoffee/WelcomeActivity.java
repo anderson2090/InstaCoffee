@@ -76,7 +76,7 @@ public class WelcomeActivity extends AppCompatActivity
                     String itemName = child.child("name").getValue(String.class);
                     String itemImage = child.child("image").getValue(String.class);
                     String key = child.getKey();
-                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage,key);
+                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key);
                     coffeeMenuItems.add(coffeeMenuItem);
                 }
                 recyclerView = findViewById(R.id.menu_items_recycler_view);
@@ -103,8 +103,7 @@ public class WelcomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(), CartActivity.class));
             }
         });
 
@@ -260,7 +259,7 @@ public class WelcomeActivity extends AppCompatActivity
                         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                         intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
                         intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
-                        intent.putExtra("key",menuItems.get(getAdapterPosition()).getKey());
+                        intent.putExtra("key", menuItems.get(getAdapterPosition()).getKey());
                         // intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
                         startActivity(intent);
                     }
