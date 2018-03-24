@@ -33,4 +33,6 @@
     <string name="orders">Orders</string>
     <string name="favourites">Favourites</string>
     <string name="menu_item_image">Menu Item Image</string>
+    <string name="coffee_image">Coffee Image</string>
+    <string name="dollar_sign">Dollar Sign</string>
 </resources>
