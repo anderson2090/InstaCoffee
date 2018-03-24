@@ -4,6 +4,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     Bundle bundle;
+    String price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String key = bundle.getString("key");
                     String description = null;
-                    String price = null;
+                    price = null;
                     if (key != null) {
                         description = dataSnapshot.child(key).child("description").getValue(String.class);
                         price = dataSnapshot.child(key).child("price").getValue(String.class);
@@ -77,5 +79,13 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
         }
+
+        numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+            @Override
+            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                double newPrice = Double.parseDouble(price) * newValue;
+                priceTextView.setText(newPrice + "");
+            }
+        });
     }
 }
