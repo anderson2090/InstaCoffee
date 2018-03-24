@@ -81,7 +81,7 @@ public class WelcomeActivity extends AppCompatActivity
 
                 adapter = new MenuRecyclerAdapter(coffeeMenuItems);
                 recyclerView.setAdapter(adapter);
-                if(savedInstanceState!=null){
+                if (savedInstanceState != null) {
                     layoutManager.onRestoreInstanceState(listState);
                 }
             }
@@ -251,6 +251,16 @@ public class WelcomeActivity extends AppCompatActivity
                 super(itemView);
                 itemNameTextView = itemView.findViewById(R.id.menu_card_item_name_text_view);
                 coffeeImage = itemView.findViewById(R.id.menu_item_image);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                        intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
+                        intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
+                        intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }
