@@ -6,14 +6,23 @@ public class CoffeeMenuItem {
     private String name;
     private String image;
     private String description;
+    private String key;
 
     public CoffeeMenuItem() {
     }
 
-    public CoffeeMenuItem(String name, String image, String description) {
+    public CoffeeMenuItem(String name, String image, String key) {
         this.name = name;
         this.image = image;
-        this.description = description;
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getDescription() {

@@ -72,7 +72,11 @@ public class WelcomeActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<CoffeeMenuItem> coffeeMenuItems = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    CoffeeMenuItem coffeeMenuItem = child.getValue(CoffeeMenuItem.class);
+                    //  CoffeeMenuItem coffeeMenuItem = child.getValue(CoffeeMenuItem.class);
+                    String itemName = child.child("name").getValue(String.class);
+                    String itemImage = child.child("image").getValue(String.class);
+                    String key = child.getKey();
+                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage,key);
                     coffeeMenuItems.add(coffeeMenuItem);
                 }
                 recyclerView = findViewById(R.id.menu_items_recycler_view);
@@ -233,7 +237,6 @@ public class WelcomeActivity extends AppCompatActivity
         public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
             holder.itemNameTextView.setText(menuItems.get(position).getName());
             Picasso.get().load(menuItems.get(position).getImage())
-                    .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.img_placeholder)
                     .into(holder.coffeeImage);
         }
@@ -257,7 +260,8 @@ public class WelcomeActivity extends AppCompatActivity
                         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                         intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
                         intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
-                        intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
+                        intent.putExtra("key",menuItems.get(getAdapterPosition()).getKey());
+                        // intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
                         startActivity(intent);
                     }
                 });

@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
@@ -18,12 +23,18 @@ public class DetailActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton cartFloatingActionButton;
     ElegantNumberButton numberButton;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Bundle bundle = getIntent().getExtras();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("coffeeList");
+
+        final Bundle bundle = getIntent().getExtras();
         nameTextView = findViewById(R.id.detail_activity_coffee_name_text_view);
         descriptionTextView = findViewById(R.id.detail_activity_coffee_description_text_view);
         imageView = findViewById(R.id.detail_collapsing_tb_image_view);
@@ -38,13 +49,27 @@ public class DetailActivity extends AppCompatActivity {
 
         if (bundle != null) {
             nameTextView.setText(bundle.getString("name"));
-            descriptionTextView.setText(bundle.getString("description"));
             collapsingToolbarLayout.setTitle(bundle.getString("name"));
             Picasso.get().load(bundle.getString("image"))
                     .error(R.drawable.img_placeholder)
                     .into(imageView);
+
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String key = bundle.getString("key");
+                    String description = null;
+                    if (key != null) {
+                        description = dataSnapshot.child(key).child("description").getValue(String.class);
+                    }
+                    descriptionTextView.setText(description);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
-
-
     }
 }
