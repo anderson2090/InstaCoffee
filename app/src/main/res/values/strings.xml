@@ -40,4 +40,5 @@
     <string name="price">Price:</string>
     <string name="no_items_cart">There Are No Items in the Cart</string>
     <string name="remove_item_from_cart">Remove Item from cart</string>
+    <string name="removed">Removed</string>
 </resources>

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class CartActivity extends AppCompatActivity {
                 holder.itemName.setText(orders.get(position).getItemName());
                 holder.itemQuantity.setText(orders.get(position).getQuantity());
                 holder.itemPrice.setText(orders.get(position).getPrice());
+
             }
 
         }
@@ -65,6 +67,7 @@ public class CartActivity extends AppCompatActivity {
             TextView itemName;
             TextView itemPrice;
             TextView itemQuantity;
+            ImageView removeCartImageView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -72,7 +75,15 @@ public class CartActivity extends AppCompatActivity {
                 itemName = itemView.findViewById(R.id.cart_item_name_text_view);
                 itemPrice = itemView.findViewById(R.id.cart_item_price_text_view);
                 itemQuantity = itemView.findViewById(R.id.cart_item_quantity_text_view);
-
+                removeCartImageView = itemView.findViewById(R.id.remove_cart_image_view);
+                removeCartImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        orders.remove(getAdapterPosition());
+                        Toast.makeText(getApplicationContext(), getString(R.string.removed), Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                    }
+                });
             }
         }
     }
