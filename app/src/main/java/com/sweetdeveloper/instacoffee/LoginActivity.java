@@ -235,6 +235,7 @@ public class LoginActivity extends RootActivity {
                             if (firebaseAuth.getCurrentUser() != null) {
                                 if (firebaseAuth.getCurrentUser().isEmailVerified()) {
                                     startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                                    finish();
                                 } else {
                                     informUserViaToast(getString(R.string.verify_email_message));
                                 }
