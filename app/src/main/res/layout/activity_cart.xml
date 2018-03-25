@@ -16,28 +16,48 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/cart_total_text_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:layout_toEndOf="@id/cart_total_label"
-        android:textColor="@color/green"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        tools:text="@string/total" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/cart_total_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="50dp"
-        android:textColor="@color/green"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        android:text="@string/total" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/cart_total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:text="@string/total"
+                android:textColor="@color/green"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cart_total_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="@color/green"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                tools:text="@string/total" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/cart_order_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/order" />
+    </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="gossamer">#09927f</color>
     <color name="colorPrimary">#121527</color>
     <color name="colorPrimaryDark">#121527</color>
     <color name="green">#A8A848</color>
