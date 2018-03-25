@@ -24,11 +24,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.sweetdeveloper.instacoffee.R;
 import com.sweetdeveloper.instacoffee.WelcomeActivity;
-import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
 import com.sweetdeveloper.instacoffee.models.DBOrder;
-import com.sweetdeveloper.instacoffee.models.Order;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
@@ -89,23 +86,27 @@ public class AddressDialog extends DialogFragment {
                         phoneEditText.getText().toString(),
                         addressEditText.getText().toString(),
                         "5000", orders);
-                databaseReference.setValue(dbOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Order Placed", Toast.LENGTH_SHORT).show();
-                            orders.clear();
-                            startActivity(new Intent(getActivity(), WelcomeActivity.class));
-                            dismiss();
+                if (orders.size() > 0) {
+                    databaseReference.setValue(dbOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
+                                orders.clear();
+                                startActivity(new Intent(getActivity(), WelcomeActivity.class));
+                                dismiss();
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.cart_is_empty), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

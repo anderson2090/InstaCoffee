@@ -52,8 +52,12 @@ public class CartActivity extends AppCompatActivity {
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddressDialog addressDialog = new AddressDialog();
-                addressDialog.show(getSupportFragmentManager(), "Address");
+                if (orders.size() > 0) {
+                    AddressDialog addressDialog = new AddressDialog();
+                    addressDialog.show(getSupportFragmentManager(), "Address");
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.cart_is_empty), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

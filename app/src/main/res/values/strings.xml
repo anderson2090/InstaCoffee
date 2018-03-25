@@ -45,4 +45,6 @@
     <string name="order">Order</string>
     <string name="address">Address</string>
     <string name="phone">Phone</string>
+    <string name="order_placed">Your Order Has Been Placed!</string>
+    <string name="cart_is_empty">Your Cart is empty!</string>
 </resources>
