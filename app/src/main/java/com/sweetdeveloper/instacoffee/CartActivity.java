@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sweetdeveloper.instacoffee.fragments.AddressDialog;
+
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
 
 public class CartActivity extends AppCompatActivity {
@@ -50,7 +52,8 @@ public class CartActivity extends AppCompatActivity {
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Placing Order...", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Placing Order...", Toast.LENGTH_SHORT).show();
+                new AddressDialog().show(getSupportFragmentManager(), "Address");
             }
         });
 
