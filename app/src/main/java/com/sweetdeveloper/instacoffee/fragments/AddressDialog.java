@@ -28,6 +28,7 @@ import com.sweetdeveloper.instacoffee.models.DBOrder;
 
 import java.util.List;
 
+import static com.sweetdeveloper.instacoffee.utils.Cart.getTotal;
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
 
 
@@ -56,7 +57,7 @@ public class AddressDialog extends DialogFragment {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("orders");
+
 
         addressEditText = view.findViewById(R.id.order_dialog_address_edit_text);
         phoneEditText = view.findViewById(R.id.order_dialog_phone_edit_text);
@@ -80,33 +81,7 @@ public class AddressDialog extends DialogFragment {
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-
-                DBOrder dbOrder = new DBOrder(user.getDisplayName(),
-                        user.getEmail(),
-                        phoneEditText.getText().toString(),
-                        addressEditText.getText().toString(),
-                        "5000", orders);
-                if (orders.size() > 0) {
-                    databaseReference.setValue(dbOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
-                                orders.clear();
-                                startActivity(new Intent(getActivity(), WelcomeActivity.class));
-                                dismiss();
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.cart_is_empty), Toast.LENGTH_SHORT).show();
-                }
+              placeOrder();
             }
 
             @Override
@@ -125,5 +100,38 @@ public class AddressDialog extends DialogFragment {
             }
         });
         return view;
+    }
+
+    public void placeOrder(){
+
+        DBOrder dbOrder = new DBOrder(user.getDisplayName(),
+                user.getEmail(),
+                phoneEditText.getText().toString(),
+                addressEditText.getText().toString(),
+                getTotal(orders) + "",
+                orders);
+        if (orders.size() > 0) {
+            databaseReference = firebaseDatabase.getReference("orders").child(phoneEditText.getText().toString());
+            databaseReference.setValue(dbOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
+                        orders.clear();
+                        startActivity(new Intent(getActivity(), WelcomeActivity.class));
+                        dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.cart_is_empty), Toast.LENGTH_SHORT).show();
+        }
     }
 }
