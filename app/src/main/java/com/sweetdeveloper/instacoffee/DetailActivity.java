@@ -101,4 +101,22 @@ public class DetailActivity extends RootActivity {
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("name", nameTextView.getText().toString());
+        outState.putString("quantity", numberButton.getNumber());
+        outState.putString("price", priceTextView.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            nameTextView.setText(savedInstanceState.getString("name"));
+            numberButton.setNumber(savedInstanceState.get("quantity") + "");
+            priceTextView.setText(savedInstanceState.getString("price"));
+        }
+    }
 }
