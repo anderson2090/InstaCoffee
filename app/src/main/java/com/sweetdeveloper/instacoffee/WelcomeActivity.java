@@ -75,8 +75,9 @@ public class WelcomeActivity extends AppCompatActivity
                     //  CoffeeMenuItem coffeeMenuItem = child.getValue(CoffeeMenuItem.class);
                     String itemName = child.child("name").getValue(String.class);
                     String itemImage = child.child("image").getValue(String.class);
+                    String itemPrice = child.child(("price")).getValue(String.class);
                     String key = child.getKey();
-                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key);
+                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key, itemPrice);
                     coffeeMenuItems.add(coffeeMenuItem);
                 }
                 recyclerView = findViewById(R.id.menu_items_recycler_view);
@@ -262,6 +263,7 @@ public class WelcomeActivity extends AppCompatActivity
                         intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
                         intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
                         intent.putExtra("key", menuItems.get(getAdapterPosition()).getKey());
+                        intent.putExtra("price",menuItems.get(getAdapterPosition()).getPrice());
                         // intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
                         startActivity(intent);
                     }

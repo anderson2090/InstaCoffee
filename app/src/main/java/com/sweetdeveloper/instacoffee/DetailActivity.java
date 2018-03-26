@@ -57,6 +57,8 @@ public class DetailActivity extends RootActivity {
 
         if (bundle != null) {
             nameTextView.setText(bundle.getString("name"));
+            price = bundle.getString("price");
+            priceTextView.setText(price);
             collapsingToolbarLayout.setTitle(bundle.getString("name"));
             Picasso.get().load(bundle.getString("image"))
                     .error(R.drawable.img_placeholder)
@@ -70,10 +72,10 @@ public class DetailActivity extends RootActivity {
                     price = null;
                     if (key != null) {
                         description = dataSnapshot.child(key).child("description").getValue(String.class);
-                        price = dataSnapshot.child(key).child("price").getValue(String.class);
+
                     }
                     descriptionTextView.setText(description);
-                    priceTextView.setText(price);
+
                 }
 
                 @Override
@@ -86,7 +88,10 @@ public class DetailActivity extends RootActivity {
         numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                double newPrice = Double.parseDouble(price) * newValue;
+                double newPrice = 0.00;
+                if(bundle!=null) {
+                     newPrice = Double.parseDouble(bundle.getString("price")) * newValue;
+                }
                 priceTextView.setText(newPrice + "");
             }
         });

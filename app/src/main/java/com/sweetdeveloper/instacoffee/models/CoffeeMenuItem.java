@@ -7,14 +7,24 @@ public class CoffeeMenuItem {
     private String image;
     private String description;
     private String key;
+    private String price;
 
     public CoffeeMenuItem() {
     }
 
-    public CoffeeMenuItem(String name, String image, String key) {
+    public CoffeeMenuItem(String name, String image, String key,String price) {
         this.name = name;
         this.image = image;
         this.key = key;
+        this.price = price;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getKey() {
