@@ -26,7 +26,8 @@
             android:label="@string/title_activity_welcome"
             android:theme="@style/AppTheme" />
         <activity android:name=".DetailActivity" />
-        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".CartActivity" />
+        <activity android:name=".HistoryItemsActivity"></activity>
     </application>
 
 </manifest>

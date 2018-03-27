@@ -1,6 +1,7 @@
 package com.sweetdeveloper.instacoffee.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sweetdeveloper.instacoffee.HistoryItemsActivity;
 import com.sweetdeveloper.instacoffee.R;
 
 import java.util.ArrayList;
@@ -136,6 +138,14 @@ public class OrderHistoryFragment extends Fragment {
             public ViewHolder(View itemView) {
                 super(itemView);
                 timeStampTextView = itemView.findViewById(R.id.history_timestamp_text_view);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), HistoryItemsActivity.class);
+                        intent.putExtra("timeStamp", timeStamps.get(getAdapterPosition()));
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }
