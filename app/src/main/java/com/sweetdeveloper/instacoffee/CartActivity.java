@@ -14,6 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sweetdeveloper.instacoffee.fragments.AddressDialog;
 
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
@@ -26,12 +33,21 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     CartItemRecyclerAdapter adapter;
     Parcelable listState;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser user;
     double total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        databaseReference = firebaseDatabase.getReference().child("pending_orders");
 
         cartTotalTextView = findViewById(R.id.cart_total_text_view);
         recyclerView = findViewById(R.id.cart_recycler_view);
@@ -60,7 +76,21 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(user.getUid())) {
+                    orderButton.setText(getString(R.string.update_your_order));
+                } else {
+                    orderButton.setText(getString(R.string.order));
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

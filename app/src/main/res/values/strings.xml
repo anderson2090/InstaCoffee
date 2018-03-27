@@ -47,4 +47,5 @@
     <string name="phone">Phone</string>
     <string name="order_placed">Your Order Has Been Placed!</string>
     <string name="cart_is_empty">Your Cart is empty!</string>
+    <string name="update_your_order">Update Your pending order</string>
 </resources>

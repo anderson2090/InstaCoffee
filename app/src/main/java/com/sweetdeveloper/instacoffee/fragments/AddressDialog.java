@@ -81,7 +81,7 @@ public class AddressDialog extends DialogFragment {
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-              placeOrder();
+                placeOrder();
             }
 
             @Override
@@ -102,7 +102,7 @@ public class AddressDialog extends DialogFragment {
         return view;
     }
 
-    public void placeOrder(){
+    public void placeOrder() {
 
         DBOrder dbOrder = new DBOrder(user.getDisplayName(),
                 user.getEmail(),
@@ -111,7 +111,7 @@ public class AddressDialog extends DialogFragment {
                 getTotal(orders) + "",
                 orders);
         if (orders.size() > 0) {
-            databaseReference = firebaseDatabase.getReference("orders").child(firebaseAuth.getCurrentUser().getUid()).push();
+            databaseReference = firebaseDatabase.getReference("pending_orders").child(firebaseAuth.getCurrentUser().getUid());
             databaseReference.setValue(dbOrder).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
