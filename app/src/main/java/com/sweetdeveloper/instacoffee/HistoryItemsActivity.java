@@ -1,5 +1,6 @@
 package com.sweetdeveloper.instacoffee;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,10 +35,11 @@ public class HistoryItemsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     HistoryItemsRecyclerViewAdapter adapter;
+    Parcelable listState;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_items);
 
@@ -67,6 +69,10 @@ public class HistoryItemsActivity extends AppCompatActivity {
                 adapter = new HistoryItemsRecyclerViewAdapter(orders);
                 recyclerView.setAdapter(adapter);
 
+                if (savedInstanceState != null) {
+                    layoutManager.onRestoreInstanceState(listState);
+                }
+
             }
 
             @Override
@@ -75,6 +81,33 @@ public class HistoryItemsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (layoutManager != null) {
+            listState = layoutManager.onSaveInstanceState();
+            outState.putParcelable("state", listState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("state");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (layoutManager != null) {
+            if (listState != null) {
+                layoutManager.onRestoreInstanceState(listState);
+            }
+        }
     }
 
     class HistoryItemsRecyclerViewAdapter extends RecyclerView.Adapter<HistoryItemsRecyclerViewAdapter.ViewHolder> {
