@@ -171,7 +171,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_orders) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment()).commit();
+                    .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment(),"orderHistoryFragment").commit();
         } else if (id == R.id.nav_change_pw) {
 
         } else if (id == R.id.nav_sign_out) {

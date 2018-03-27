@@ -2,6 +2,7 @@ package com.sweetdeveloper.instacoffee.fragments;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ public class OrderHistoryFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     HistoryTimeRecyclerViewAdapter adapter;
+    Parcelable listState;
 
     @Nullable
     @Override
@@ -56,6 +58,9 @@ public class OrderHistoryFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new HistoryTimeRecyclerViewAdapter(timeStamps);
                 recyclerView.setAdapter(adapter);
+                if (listState != null) {
+                    layoutManager.onRestoreInstanceState(listState);
+                }
             }
 
             @Override
@@ -67,6 +72,31 @@ public class OrderHistoryFragment extends Fragment {
 
         return view;
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("state", listState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("state");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listState != null) {
+            if (layoutManager != null) {
+                layoutManager.onRestoreInstanceState(listState);
+            }
+        }
     }
 
     class HistoryTimeRecyclerViewAdapter extends RecyclerView.Adapter<HistoryTimeRecyclerViewAdapter.ViewHolder> {
