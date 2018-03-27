@@ -11,6 +11,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sweetdeveloper.instacoffee.models.Order;
+
+import java.util.ArrayList;
 
 public class HistoryItemsActivity extends AppCompatActivity {
 
@@ -40,16 +43,12 @@ public class HistoryItemsActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Order> orders = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    String name = child.child("itemName").getValue(String.class);
-                    String price = child.child("price").getValue(String.class);
-                    String quantity = child.child("quantity").getValue(String.class);
-
-                    Log.i("NAME", name);
-                    Log.i("Price", price);
-                    Log.i("Quantity", quantity);
-
+                    Order order = child.getValue(Order.class);
+                    orders.add(order);
                 }
+
             }
 
             @Override
