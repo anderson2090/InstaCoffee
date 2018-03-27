@@ -26,6 +26,10 @@ import com.sweetdeveloper.instacoffee.R;
 import com.sweetdeveloper.instacoffee.WelcomeActivity;
 import com.sweetdeveloper.instacoffee.models.DBOrder;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import java.util.List;
 
 import static com.sweetdeveloper.instacoffee.utils.Cart.getTotal;
@@ -116,6 +120,7 @@ public class AddressDialog extends DialogFragment {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        addOrderInHistory();
                         Toast.makeText(getContext(), getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
                         orders.clear();
                         startActivity(new Intent(getActivity(), WelcomeActivity.class));
@@ -133,5 +138,19 @@ public class AddressDialog extends DialogFragment {
         } else {
             Toast.makeText(getActivity(), getString(R.string.cart_is_empty), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void addOrderInHistory() {
+        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+        DatabaseReference historyReference = firebaseDatabase
+                .getReference("order_history").child(user.getUid()).child(date);
+        historyReference.setValue(orders).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
