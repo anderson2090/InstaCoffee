@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
+import com.sweetdeveloper.instacoffee.fragments.OrderHistoryFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
 
@@ -163,11 +164,14 @@ public class WelcomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_menu) {
             // Handle the camera action
-
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentById(R.id.welcome_activity_root_layout))
+                    .commit();
         } else if (id == R.id.nav_cart) {
 
         } else if (id == R.id.nav_orders) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment()).commit();
         } else if (id == R.id.nav_change_pw) {
 
         } else if (id == R.id.nav_sign_out) {
@@ -263,7 +267,7 @@ public class WelcomeActivity extends AppCompatActivity
                         intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
                         intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
                         intent.putExtra("key", menuItems.get(getAdapterPosition()).getKey());
-                        intent.putExtra("price",menuItems.get(getAdapterPosition()).getPrice());
+                        intent.putExtra("price", menuItems.get(getAdapterPosition()).getPrice());
                         // intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
                         startActivity(intent);
                     }
