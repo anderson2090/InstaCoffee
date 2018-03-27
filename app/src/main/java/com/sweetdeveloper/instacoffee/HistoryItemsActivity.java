@@ -1,8 +1,15 @@
 package com.sweetdeveloper.instacoffee;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +30,11 @@ public class HistoryItemsActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     Bundle bundle;
     String currentTimeStamp;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    HistoryItemsRecyclerViewAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,12 @@ public class HistoryItemsActivity extends AppCompatActivity {
                     orders.add(order);
                 }
 
+                recyclerView = findViewById(R.id.history_items_recycler_view);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                adapter = new HistoryItemsRecyclerViewAdapter(orders);
+                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -57,5 +75,50 @@ public class HistoryItemsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    class HistoryItemsRecyclerViewAdapter extends RecyclerView.Adapter<HistoryItemsRecyclerViewAdapter.ViewHolder> {
+
+
+        ArrayList<Order> orders = new ArrayList<>();
+
+        HistoryItemsRecyclerViewAdapter(ArrayList<Order> orders) {
+            this.orders = orders;
+        }
+
+        @NonNull
+        @Override
+        public HistoryItemsRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.order_history_item, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull HistoryItemsRecyclerViewAdapter.ViewHolder holder, int position) {
+            holder.itemPriceTextView.setText("$"+orders.get(position).getPrice());
+            holder.itemQuantityTextView.setText(orders.get(position).getQuantity());
+            holder.itemNameTextView.setText(orders.get(position).getItemName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return orders.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            TextView itemNameTextView;
+            TextView itemQuantityTextView;
+            TextView itemPriceTextView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                itemNameTextView = itemView.findViewById(R.id.history_item_name_text_view);
+                itemQuantityTextView = itemView.findViewById(R.id.history_item_quantity_text_view);
+                itemPriceTextView = itemView.findViewById(R.id.history_item_price_text_view);
+            }
+        }
     }
 }
