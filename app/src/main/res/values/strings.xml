@@ -50,4 +50,5 @@
     <string name="update_your_order">Update Your pending order</string>
     <string name="order_history">Order History</string>
     <string name="time">Time</string>
+    <string name="add_to_favourites">Add to favourites</string>
 </resources>

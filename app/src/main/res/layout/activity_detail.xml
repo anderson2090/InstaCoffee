@@ -73,63 +73,85 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/detail_activity_coffee_name_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:padding="12dp"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        tools:text="Coffee Name" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-
-                        android:id="@+id/detail_activity_price_layout"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="0dp"
-
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:contentDescription="@string/dollar_sign"
-                            android:src="@drawable/ic_attach_money_black_24dp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
-
-                            android:id="@+id/detail_activity_coffee_price_text_view"
-                            android:layout_width="0dp"
+                            android:id="@+id/detail_activity_coffee_name_text_view"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="9"
-                            android:textSize="18sp"
+                            android:layout_marginTop="8dp"
+                            android:padding="12dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            tools:text="Coffee Price" />
+                            tools:text="Coffee Name" />
+
+                        <LinearLayout
+
+                            android:id="@+id/detail_activity_price_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="0dp"
+
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:contentDescription="@string/dollar_sign"
+                                android:src="@drawable/ic_attach_money_black_24dp" />
+
+                            <TextView
+
+                                android:id="@+id/detail_activity_coffee_price_text_view"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="9"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                tools:text="Coffee Price" />
+                        </LinearLayout>
+
+                        <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                            android:id="@+id/detail_activity_number_button"
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:layout_marginBottom="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:backGroundColor="@color/colorAccent"
+                            app:finalNumber="100"
+                            app:initialNumber="1"
+                            app:textSize="8sp"
+                            tools:ignore="SmallSp">
+
+                        </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
                     </LinearLayout>
 
-                    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                        android:id="@+id/detail_activity_number_button"
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_marginBottom="18dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        app:backGroundColor="@color/colorAccent"
-                        app:finalNumber="100"
-                        app:initialNumber="1"
-                        app:textSize="8sp"
-                        tools:ignore="SmallSp">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
+                        <ImageView
+                            android:id="@+id/add_favourite_image_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/add_to_favourites"
+                            android:padding="30dp"
+                            android:src="@drawable/ic_favorite_black_24dp" />
+                    </LinearLayout>
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
