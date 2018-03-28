@@ -148,7 +148,7 @@
                             android:layout_height="match_parent"
                             android:contentDescription="@string/add_to_favourites"
                             android:padding="30dp"
-                            android:src="@drawable/ic_favorite_black_24dp" />
+                            android:src="@drawable/ic_favorite_black" />
                     </LinearLayout>
                 </LinearLayout>
 

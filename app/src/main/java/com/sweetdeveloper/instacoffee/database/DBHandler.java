@@ -3,6 +3,7 @@ package com.sweetdeveloper.instacoffee.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -56,5 +57,17 @@ public class DBHandler extends SQLiteOpenHelper {
         database.insert(TABLE_FAVOURITES, null, values);
         database.close();
 
+    }
+
+    public boolean IsDataAlreadyInDB(String itemName) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String Query = "Select * from " + TABLE_FAVOURITES + " where " + COLUMN_NAME + " = " + "'"+itemName+"'";
+        Cursor cursor = database.rawQuery(Query, null);
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 }

@@ -32,6 +32,7 @@ public class DetailActivity extends RootActivity {
     ElegantNumberButton numberButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    DBHandler dbHandler;
     Bundle bundle;
     String name;
     String image;
@@ -43,15 +44,21 @@ public class DetailActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        addFavouritesImageView = findViewById(R.id.add_favourite_image_view);
+        //Sqlite
+        dbHandler = new DBHandler(getApplicationContext(), null, null, 1);
+
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("coffeeList");
+
 
         bundle = getIntent().getExtras();
         nameTextView = findViewById(R.id.detail_activity_coffee_name_text_view);
         descriptionTextView = findViewById(R.id.detail_activity_coffee_description_text_view);
         priceTextView = findViewById(R.id.detail_activity_coffee_price_text_view);
         imageView = findViewById(R.id.detail_collapsing_tb_image_view);
-        addFavouritesImageView = findViewById(R.id.add_favourite_image_view);
+
         numberButton = findViewById(R.id.detail_activity_number_button);
         cartAddOrderFloatingActionButton = findViewById(R.id.detail_activity_cart_button);
         collapsingToolbarLayout = findViewById(R.id.detail_activity_collapsing_toolbar_layout);
@@ -93,6 +100,12 @@ public class DetailActivity extends RootActivity {
             });
         }
 
+        if (dbHandler.IsDataAlreadyInDB(name)) {
+            addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
+        } else {
+            addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
+        }
+
         numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
@@ -117,9 +130,10 @@ public class DetailActivity extends RootActivity {
         addFavouritesImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBHandler dbHandler = new DBHandler(getApplicationContext(), null, null, 1);
+
                 dbHandler.addItem(name, image, price, description);
                 informUserViaToast("Added to favourites");
+
             }
         });
     }
