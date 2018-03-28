@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DBHandler extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -74,5 +77,51 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteItem(String itemName) {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_FAVOURITES, COLUMN_NAME + "=" + "'" + itemName + "'", null);
+    }
+
+    public ArrayList<CoffeeMenuItem> getAllRows() {
+
+        ArrayList<CoffeeMenuItem> coffeeMenuItems = new ArrayList<>();
+
+
+        String selectQuery = "SELECT  * FROM " + TABLE_FAVOURITES;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            try {
+
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        CoffeeMenuItem menuItem = new CoffeeMenuItem();
+
+                        menuItem.setName(cursor.getString(1));
+                        menuItem.setPrice(cursor.getString(2));
+                        menuItem.setImage(cursor.getString(3));
+                        menuItem.setDescription(cursor.getString(4));
+
+
+
+                        coffeeMenuItems.add(menuItem);
+                    } while (cursor.moveToNext());
+                }
+
+            } finally {
+                try {
+                    cursor.close();
+                } catch (Exception ignore) {
+                }
+            }
+
+        } finally {
+            try {
+                db.close();
+            } catch (Exception ignore) {
+            }
+        }
+
+        return coffeeMenuItems;
     }
 }
