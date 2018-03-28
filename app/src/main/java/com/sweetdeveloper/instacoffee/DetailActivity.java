@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.sweetdeveloper.instacoffee.database.DBHandler;
 import com.sweetdeveloper.instacoffee.models.Order;
 
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
@@ -24,6 +25,7 @@ public class DetailActivity extends RootActivity {
     TextView nameTextView;
     TextView descriptionTextView;
     TextView priceTextView;
+    ImageView addFavouritesImageView;
     ImageView imageView;
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton cartAddOrderFloatingActionButton;
@@ -31,7 +33,10 @@ public class DetailActivity extends RootActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     Bundle bundle;
+    String name;
+    String image;
     String price;
+    String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class DetailActivity extends RootActivity {
         descriptionTextView = findViewById(R.id.detail_activity_coffee_description_text_view);
         priceTextView = findViewById(R.id.detail_activity_coffee_price_text_view);
         imageView = findViewById(R.id.detail_collapsing_tb_image_view);
+        addFavouritesImageView = findViewById(R.id.add_favourite_image_view);
         numberButton = findViewById(R.id.detail_activity_number_button);
         cartAddOrderFloatingActionButton = findViewById(R.id.detail_activity_cart_button);
         collapsingToolbarLayout = findViewById(R.id.detail_activity_collapsing_toolbar_layout);
@@ -56,11 +62,14 @@ public class DetailActivity extends RootActivity {
         collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
 
         if (bundle != null) {
-            nameTextView.setText(bundle.getString("name"));
+            name = bundle.getString("name");
+            nameTextView.setText(name);
+
             price = bundle.getString("price");
             priceTextView.setText(price);
             collapsingToolbarLayout.setTitle(bundle.getString("name"));
-            Picasso.get().load(bundle.getString("image"))
+            image = bundle.getString("image");
+            Picasso.get().load(image)
                     .error(R.drawable.img_placeholder)
                     .into(imageView);
 
@@ -68,8 +77,7 @@ public class DetailActivity extends RootActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String key = bundle.getString("key");
-                    String description = null;
-                    price = null;
+
                     if (key != null) {
                         description = dataSnapshot.child(key).child("description").getValue(String.class);
 
@@ -89,8 +97,8 @@ public class DetailActivity extends RootActivity {
             @Override
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 double newPrice = 0.00;
-                if(bundle!=null) {
-                     newPrice = Double.parseDouble(bundle.getString("price")) * newValue;
+                if (bundle != null) {
+                    newPrice = Double.parseDouble(bundle.getString("price")) * newValue;
                 }
                 priceTextView.setText(newPrice + "");
             }
@@ -103,6 +111,15 @@ public class DetailActivity extends RootActivity {
                         priceTextView.getText().toString(),
                         numberButton.getNumber() + ""));
                 informUserViaToast(getString(R.string.added_to_cart));
+            }
+        });
+
+        addFavouritesImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DBHandler dbHandler = new DBHandler(getApplicationContext(), null, null, 1);
+                dbHandler.addItem(name, image, price, description);
+                informUserViaToast("Added to favourites");
             }
         });
     }
