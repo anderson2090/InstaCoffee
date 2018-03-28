@@ -132,12 +132,12 @@ public class DetailActivity extends RootActivity {
             public void onClick(View view) {
                 if (!dbHandler.IsDataAlreadyInDB(name)) {
                     dbHandler.addItem(name, image, price, description);
-                    informUserViaToast("Added to favourites");
+                    informUserViaToast(getString(R.string.added_to_favourites));
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
                 } else {
                     dbHandler.deleteItem(name);
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
-                    informUserViaToast("Removed From Favourites");
+                    informUserViaToast(getString(R.string.removed_from_favourites));
                 }
 
 

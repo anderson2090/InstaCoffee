@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
+import com.sweetdeveloper.instacoffee.fragments.FavouritesFragment;
 import com.sweetdeveloper.instacoffee.fragments.OrderHistoryFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
@@ -167,11 +168,12 @@ public class WelcomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .remove(getSupportFragmentManager().findFragmentById(R.id.welcome_activity_root_layout))
                     .commit();
-        } else if (id == R.id.nav_cart) {
-
+        } else if (id == R.id.nav_favourites) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.welcome_activity_root_layout, new FavouritesFragment(), "favouritesFragment").commit();
         } else if (id == R.id.nav_orders) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment(),"orderHistoryFragment").commit();
+                    .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment(), "orderHistoryFragment").commit();
         } else if (id == R.id.nav_change_pw) {
 
         } else if (id == R.id.nav_sign_out) {
