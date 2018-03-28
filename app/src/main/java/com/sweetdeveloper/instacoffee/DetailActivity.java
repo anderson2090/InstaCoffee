@@ -130,9 +130,16 @@ public class DetailActivity extends RootActivity {
         addFavouritesImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!dbHandler.IsDataAlreadyInDB(name)) {
+                    dbHandler.addItem(name, image, price, description);
+                    informUserViaToast("Added to favourites");
+                    addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
+                } else {
+                    dbHandler.deleteItem(name);
+                    addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
+                    informUserViaToast("Removed From Favourites");
+                }
 
-                dbHandler.addItem(name, image, price, description);
-                informUserViaToast("Added to favourites");
 
             }
         });

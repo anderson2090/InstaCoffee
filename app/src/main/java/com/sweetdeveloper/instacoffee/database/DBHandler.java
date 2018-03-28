@@ -61,7 +61,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public boolean IsDataAlreadyInDB(String itemName) {
         SQLiteDatabase database = this.getWritableDatabase();
-        String Query = "Select * from " + TABLE_FAVOURITES + " where " + COLUMN_NAME + " = " + "'"+itemName+"'";
+        String Query = "Select * from " + TABLE_FAVOURITES + " where " + COLUMN_NAME + " = " + "'" + itemName + "'";
         Cursor cursor = database.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
@@ -69,5 +69,10 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         return true;
+    }
+
+    public void deleteItem(String itemName) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_FAVOURITES, COLUMN_NAME + "=" + "'" + itemName + "'", null);
     }
 }
