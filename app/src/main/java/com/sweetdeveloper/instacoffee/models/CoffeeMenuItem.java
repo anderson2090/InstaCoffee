@@ -12,11 +12,12 @@ public class CoffeeMenuItem {
     public CoffeeMenuItem() {
     }
 
-    public CoffeeMenuItem(String name, String image, String key,String price) {
+    public CoffeeMenuItem(String name, String image, String key, String price, String description) {
         this.name = name;
         this.image = image;
         this.key = key;
         this.price = price;
+        this.description = description;
     }
 
     public String getPrice() {

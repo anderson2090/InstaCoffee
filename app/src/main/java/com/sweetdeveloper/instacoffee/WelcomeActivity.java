@@ -79,8 +79,9 @@ public class WelcomeActivity extends AppCompatActivity
                     String itemName = child.child("name").getValue(String.class);
                     String itemImage = child.child("image").getValue(String.class);
                     String itemPrice = child.child(("price")).getValue(String.class);
+                    String itemDescription = child.child(("description")).getValue(String.class);
                     String key = child.getKey();
-                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key, itemPrice);
+                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key, itemPrice,itemDescription);
                     coffeeMenuItems.add(coffeeMenuItem);
                 }
                 recyclerView = findViewById(R.id.menu_items_recycler_view);

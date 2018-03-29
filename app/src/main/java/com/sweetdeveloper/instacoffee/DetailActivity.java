@@ -79,25 +79,8 @@ public class DetailActivity extends RootActivity {
             Picasso.get().load(image)
                     .error(R.drawable.img_placeholder)
                     .into(imageView);
-
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String key = bundle.getString("key");
-
-                    if (key != null) {
-                        description = dataSnapshot.child(key).child("description").getValue(String.class);
-
-                    }
-                    descriptionTextView.setText(description);
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            description = bundle.getString("description");
+            descriptionTextView.setText(description);
         }
 
         if (dbHandler.IsDataAlreadyInDB(name)) {
