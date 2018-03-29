@@ -187,7 +187,7 @@ public class WelcomeActivity extends AppCompatActivity
                     .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment(), "orderHistoryFragment").commit();
             mainMenu.setEnabled(true);
         } else if (id == R.id.nav_change_pw) {
-
+            new ChangePasswordDialogFragment().show(getSupportFragmentManager(), CHANGE_PASSWORD_FRAGMENT_TAG);
         } else if (id == R.id.nav_sign_out) {
             firebaseAuth.signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
