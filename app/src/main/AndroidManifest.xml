@@ -28,6 +28,12 @@
         <activity android:name=".DetailActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".HistoryItemsActivity"></activity>
+
+        <provider
+            android:name=".contentprovider.ItemProvider"
+            android:authorities="com.sweetdeveloper.instacoffee.contentprovider.ItemProvider"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

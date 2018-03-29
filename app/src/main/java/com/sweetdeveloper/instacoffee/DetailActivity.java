@@ -1,5 +1,7 @@
 package com.sweetdeveloper.instacoffee;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,7 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+import com.sweetdeveloper.instacoffee.contentprovider.ItemProvider;
 import com.sweetdeveloper.instacoffee.database.DBAdapter;
 import com.sweetdeveloper.instacoffee.models.Order;
 
@@ -34,6 +37,7 @@ public class DetailActivity extends RootActivity {
     String image;
     String price;
     String description;
+    ContentResolver contentResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +46,12 @@ public class DetailActivity extends RootActivity {
 
         addFavouritesImageView = findViewById(R.id.add_favourite_image_view);
         //Sqlite
-       dbAdapter = DBAdapter.getDbAdapterInstance(this);
+        dbAdapter = DBAdapter.getDbAdapterInstance(this);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("coffeeList");
-
+        contentResolver = getContentResolver();
 
         bundle = getIntent().getExtras();
         nameTextView = findViewById(R.id.detail_activity_coffee_name_text_view);
@@ -110,7 +114,16 @@ public class DetailActivity extends RootActivity {
             @Override
             public void onClick(View view) {
                 if (!dbAdapter.IsDataAlreadyInDB(name)) {
-                    dbAdapter.addItem(name, image, price, description);
+                    //  dbAdapter.addItem(name, image, price, description);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBAdapter.COLUMN_NAME, name);
+                    contentValues.put(DBAdapter.COLUMN_IMAGE, image);
+                    contentValues.put(DBAdapter.COLUMN_PRICE, price);
+                    contentValues.put(DBAdapter.COLUMN_DESCRIPTION, description);
+
+                    contentResolver.insert(ItemProvider.CONTENT_URI,contentValues);
+
+
                     informUserViaToast(getString(R.string.added_to_favourites));
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
                 } else {

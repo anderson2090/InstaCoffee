@@ -124,6 +124,10 @@ public class DBAdapter {
         return coffeeMenuItems;
     }
 
+    //Content provider methods
+    public long insert(ContentValues contentValues) {
+        return sqLiteDatabase.insert(TABLE_FAVOURITES, null, contentValues);
+    }
 
     private static class SQLiteDBHelper extends SQLiteOpenHelper {
         public SQLiteDBHelper(Context context, String databaseName,
