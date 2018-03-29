@@ -79,6 +79,7 @@ public class DBAdapter {
     }
 
     public ArrayList<CoffeeMenuItem> getAllRows() {
+        SQLiteDatabase database = new SQLiteDBHelper(this.context, DATABASE_NAME, null, DATABASE_VERSION).getWritableDatabase();
 
         ArrayList<CoffeeMenuItem> coffeeMenuItems = new ArrayList<>();
 
@@ -88,7 +89,7 @@ public class DBAdapter {
 
         try {
 
-            Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
+            Cursor cursor = database.rawQuery(selectQuery, null);
             try {
 
 
@@ -137,7 +138,8 @@ public class DBAdapter {
 
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVOURITES);
+            onCreate(sqLiteDatabase);
         }
     }
 

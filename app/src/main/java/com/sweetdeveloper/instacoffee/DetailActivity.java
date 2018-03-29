@@ -1,21 +1,17 @@
 package com.sweetdeveloper.instacoffee;
 
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import com.sweetdeveloper.instacoffee.database.DBHandler;
+import com.sweetdeveloper.instacoffee.database.DBAdapter;
 import com.sweetdeveloper.instacoffee.models.Order;
 
 import static com.sweetdeveloper.instacoffee.utils.Cart.orders;
@@ -32,7 +28,7 @@ public class DetailActivity extends RootActivity {
     ElegantNumberButton numberButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    DBHandler dbHandler;
+    DBAdapter dbAdapter;
     Bundle bundle;
     String name;
     String image;
@@ -46,7 +42,7 @@ public class DetailActivity extends RootActivity {
 
         addFavouritesImageView = findViewById(R.id.add_favourite_image_view);
         //Sqlite
-        dbHandler = new DBHandler(getApplicationContext(), null, null, 1);
+       dbAdapter = DBAdapter.getDbAdapterInstance(this);
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -83,7 +79,7 @@ public class DetailActivity extends RootActivity {
             descriptionTextView.setText(description);
         }
 
-        if (dbHandler.IsDataAlreadyInDB(name)) {
+        if (dbAdapter.IsDataAlreadyInDB(name)) {
             addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
         } else {
             addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
@@ -113,12 +109,12 @@ public class DetailActivity extends RootActivity {
         addFavouritesImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!dbHandler.IsDataAlreadyInDB(name)) {
-                    dbHandler.addItem(name, image, price, description);
+                if (!dbAdapter.IsDataAlreadyInDB(name)) {
+                    dbAdapter.addItem(name, image, price, description);
                     informUserViaToast(getString(R.string.added_to_favourites));
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
                 } else {
-                    dbHandler.deleteItem(name);
+                    dbAdapter.deleteItem(name);
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
                     informUserViaToast(getString(R.string.removed_from_favourites));
 
