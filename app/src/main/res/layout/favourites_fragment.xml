@@ -12,9 +12,5 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v7.widget.RecyclerView>
-<TextView
-    android:layout_centerInParent="true"
-    android:text="FAvourites"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
 </RelativeLayout>

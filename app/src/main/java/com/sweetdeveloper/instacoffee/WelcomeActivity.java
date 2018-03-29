@@ -55,6 +55,9 @@ public class WelcomeActivity extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     Parcelable listState;
+    Menu navigationMenu;
+    NavigationView navigationView;
+    MenuItem mainMenu;
     final String CHANGE_PASSWORD_FRAGMENT_TAG = "CHANGE PASSWORD FRAGMENT";
 
     @Override
@@ -63,8 +66,10 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        navigationView = findViewById(R.id.nav_view);
+        navigationMenu = navigationView.getMenu();
+        mainMenu = navigationMenu.findItem(R.id.nav_menu);
+        mainMenu.setEnabled(false);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
@@ -81,7 +86,7 @@ public class WelcomeActivity extends AppCompatActivity
                     String itemPrice = child.child(("price")).getValue(String.class);
                     String itemDescription = child.child(("description")).getValue(String.class);
                     String key = child.getKey();
-                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key, itemPrice,itemDescription);
+                    CoffeeMenuItem coffeeMenuItem = new CoffeeMenuItem(itemName, itemImage, key, itemPrice, itemDescription);
                     coffeeMenuItems.add(coffeeMenuItem);
                 }
                 recyclerView = findViewById(R.id.menu_items_recycler_view);
@@ -162,6 +167,7 @@ public class WelcomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -170,12 +176,16 @@ public class WelcomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .remove(getSupportFragmentManager().findFragmentById(R.id.welcome_activity_root_layout))
                     .commit();
+            mainMenu.setEnabled(false);
+
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.welcome_activity_root_layout, new FavouritesFragment(), "favouritesFragment").commit();
+            mainMenu.setEnabled(true);
         } else if (id == R.id.nav_orders) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.welcome_activity_root_layout, new OrderHistoryFragment(), "orderHistoryFragment").commit();
+            mainMenu.setEnabled(true);
         } else if (id == R.id.nav_change_pw) {
 
         } else if (id == R.id.nav_sign_out) {

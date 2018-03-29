@@ -121,6 +121,7 @@ public class DetailActivity extends RootActivity {
                     dbHandler.deleteItem(name);
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
                     informUserViaToast(getString(R.string.removed_from_favourites));
+
                 }
 
 
