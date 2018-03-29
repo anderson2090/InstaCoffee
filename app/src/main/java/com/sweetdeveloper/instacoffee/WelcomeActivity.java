@@ -38,6 +38,7 @@ import com.sweetdeveloper.instacoffee.fragments.FavouritesFragment;
 import com.sweetdeveloper.instacoffee.fragments.OrderHistoryFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
+import com.sweetdeveloper.instacoffee.recyclerviews.MenuRecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -223,58 +224,5 @@ public class WelcomeActivity extends AppCompatActivity
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.ViewHolder> {
 
-
-        private ArrayList<CoffeeMenuItem> menuItems = new ArrayList<>();
-
-        public MenuRecyclerAdapter(ArrayList<CoffeeMenuItem> menuItems) {
-
-            this.menuItems = menuItems;
-        }
-
-        @NonNull
-        @Override
-        public MenuRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_card, parent, false);
-            ViewHolder viewHolder = new ViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
-            holder.itemNameTextView.setText(menuItems.get(position).getName());
-            Picasso.get().load(menuItems.get(position).getImage())
-                    .error(R.drawable.img_placeholder)
-                    .into(holder.coffeeImage);
-        }
-
-        @Override
-        public int getItemCount() {
-            return menuItems.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView itemNameTextView;
-            public ImageView coffeeImage;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                itemNameTextView = itemView.findViewById(R.id.menu_card_item_name_text_view);
-                coffeeImage = itemView.findViewById(R.id.menu_item_image);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                        intent.putExtra("name", menuItems.get(getAdapterPosition()).getName());
-                        intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
-                        intent.putExtra("key", menuItems.get(getAdapterPosition()).getKey());
-                        intent.putExtra("price", menuItems.get(getAdapterPosition()).getPrice());
-                        // intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
-                        startActivity(intent);
-                    }
-                });
-            }
-        }
-    }
 }
