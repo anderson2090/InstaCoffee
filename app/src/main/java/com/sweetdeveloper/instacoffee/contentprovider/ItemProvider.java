@@ -41,8 +41,17 @@ public class ItemProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(@NonNull Uri uri, String[] strings, String s, String[] strings1, String s1) {
+        Cursor cursor = null;
+        switch (URI_MATCHER.match(uri)) {
+            case ITEMS:
+                cursor = dbAdapter.getCursorsForAllItems();
+                break;
+            default:
+                cursor = null;
+        }
+
+        return cursor;
     }
 
     @Nullable
@@ -53,7 +62,7 @@ public class ItemProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(Uri uri,  ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values) {
         Uri returnUri = null;
         switch (URI_MATCHER.match(uri)) {
             case ITEMS:
@@ -64,6 +73,7 @@ public class ItemProvider extends ContentProvider {
         }
         return returnUri;
     }
+
     private Uri insertItem(Uri uri, ContentValues values) {
         long id = dbAdapter.insert(values);
         getContext().getContentResolver().notifyChange(uri, null);
@@ -71,8 +81,20 @@ public class ItemProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String selection, @Nullable String[] strings) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        int deleteCount = -1;
+        switch (URI_MATCHER.match(uri)) {
+            case ITEMS:
+                deleteCount = deleteItem(selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("delete operation not supported");
+        }
+        return deleteCount;
+    }
+
+    private int deleteItem(String selection, String[] selectionArgs) {
+        return dbAdapter.delete(selection, selectionArgs);
     }
 
     @Override

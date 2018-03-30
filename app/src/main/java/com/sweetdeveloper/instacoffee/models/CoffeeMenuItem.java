@@ -12,6 +12,13 @@ public class CoffeeMenuItem {
     public CoffeeMenuItem() {
     }
 
+    public CoffeeMenuItem(String name, String image, String description, String price) {
+        this.name = name;
+        this.image = image;
+        this.description = description;
+        this.price = price;
+    }
+
     public CoffeeMenuItem(String name, String image, String key, String price, String description) {
         this.name = name;
         this.image = image;

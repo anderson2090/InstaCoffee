@@ -121,13 +121,17 @@ public class DetailActivity extends RootActivity {
                     contentValues.put(DBAdapter.COLUMN_PRICE, price);
                     contentValues.put(DBAdapter.COLUMN_DESCRIPTION, description);
 
-                    contentResolver.insert(ItemProvider.CONTENT_URI,contentValues);
+                    contentResolver.insert(ItemProvider.CONTENT_URI, contentValues);
 
 
                     informUserViaToast(getString(R.string.added_to_favourites));
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
                 } else {
-                    dbAdapter.deleteItem(name);
+                    // dbAdapter.deleteItem(name);
+
+                    contentResolver.delete(ItemProvider.CONTENT_URI,
+                            DBAdapter.COLUMN_NAME + " = ?", new String[]{name});
+
                     addFavouritesImageView.setImageResource(R.drawable.ic_favorite_black);
                     informUserViaToast(getString(R.string.removed_from_favourites));
 

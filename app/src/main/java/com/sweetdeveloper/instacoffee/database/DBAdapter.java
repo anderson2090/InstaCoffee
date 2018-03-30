@@ -66,10 +66,10 @@ public class DBAdapter {
         String Query = "Select * from " + TABLE_FAVOURITES + " where " + COLUMN_NAME + " = " + "'" + itemName + "'";
         Cursor cursor = sqLiteDatabase.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
-            cursor.close();
+            // cursor.close();
             return false;
         }
-        cursor.close();
+        // cursor.close();
         return true;
     }
 
@@ -109,14 +109,14 @@ public class DBAdapter {
 
             } finally {
                 try {
-                    cursor.close();
+                    // cursor.close();
                 } catch (Exception ignore) {
                 }
             }
 
         } finally {
             try {
-                sqLiteDatabase.close();
+                //  sqLiteDatabase.close();
             } catch (Exception ignore) {
             }
         }
@@ -127,6 +127,18 @@ public class DBAdapter {
     //Content provider methods
     public long insert(ContentValues contentValues) {
         return sqLiteDatabase.insert(TABLE_FAVOURITES, null, contentValues);
+    }
+
+    public int delete(String whereClause, String[] whereValues) {
+        return sqLiteDatabase.delete(TABLE_FAVOURITES, whereClause, whereValues);
+    }
+
+    public Cursor getCursorsForAllItems() {
+        return sqLiteDatabase.query(TABLE_FAVOURITES, new String[]{COLUMN_NAME,
+                        COLUMN_IMAGE, COLUMN_DESCRIPTION,
+                        COLUMN_PRICE},
+                null, null, null,
+                null, null, null);
     }
 
     private static class SQLiteDBHelper extends SQLiteOpenHelper {
@@ -145,6 +157,8 @@ public class DBAdapter {
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVOURITES);
             onCreate(sqLiteDatabase);
         }
+
+
     }
 
 }
