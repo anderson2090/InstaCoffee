@@ -124,6 +124,49 @@ public class DBAdapter {
         return coffeeMenuItems;
     }
 
+    public StringBuilder getAllNames() {
+        SQLiteDatabase database = new SQLiteDBHelper(this.context, DATABASE_NAME, null, DATABASE_VERSION).getWritableDatabase();
+
+        StringBuilder coffeeMenuItemsNames = new StringBuilder();
+
+
+        String selectQuery = "SELECT  * FROM " + TABLE_FAVOURITES;
+
+
+        try {
+
+            Cursor cursor = database.rawQuery(selectQuery, null);
+            try {
+
+
+                if (cursor.moveToFirst()) {
+                    do {
+
+
+                        coffeeMenuItemsNames.append(cursor.getString(1));
+                        coffeeMenuItemsNames.append("\n");
+
+
+                    } while (cursor.moveToNext());
+                }
+
+            } finally {
+                try {
+                    // cursor.close();
+                } catch (Exception ignore) {
+                }
+            }
+
+        } finally {
+            try {
+                //  sqLiteDatabase.close();
+            } catch (Exception ignore) {
+            }
+        }
+
+        return coffeeMenuItemsNames;
+    }
+
     //Content provider methods
     public long insert(ContentValues contentValues) {
         return sqLiteDatabase.insert(TABLE_FAVOURITES, null, contentValues);

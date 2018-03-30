@@ -53,4 +53,7 @@
     <string name="add_to_favourites">Add to favourites</string>
     <string name="added_to_favourites">Added to favourites</string>
     <string name="removed_from_favourites">Removed from Favourites</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="your_favourite_coffee_items">Favourite Coffee</string>
 </resources>
