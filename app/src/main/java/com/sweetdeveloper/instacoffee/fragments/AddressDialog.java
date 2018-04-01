@@ -25,6 +25,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.sweetdeveloper.instacoffee.R;
 import com.sweetdeveloper.instacoffee.WelcomeActivity;
 import com.sweetdeveloper.instacoffee.models.DBOrder;
+import com.sweetdeveloper.instacoffee.services.OrderConfirmationService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -123,6 +124,7 @@ public class AddressDialog extends DialogFragment {
                         addOrderInHistory();
                         Toast.makeText(getContext(), getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
                         orders.clear();
+                        getActivity().startService(new Intent(getActivity(), OrderConfirmationService.class));
                         startActivity(new Intent(getActivity(), WelcomeActivity.class));
                         dismiss();
                     }
