@@ -38,7 +38,7 @@ public class OrderConfirmationService extends Service {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("pending_orders");
+        databaseReference = firebaseDatabase.getReference("pending_orders").child(firebaseUser.getUid());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OrderConfirmationService extends Service {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.hasChild(firebaseUser.getUid())) {
+                if (!dataSnapshot.exists()) {
                     sendNotification();
                     stopSelf();
                 }

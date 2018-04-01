@@ -57,4 +57,6 @@
     <string name="add_widget">Add widget</string>
     <string name="your_favourite_coffee_items">Favourite Coffee</string>
     <string name="your_order_has_been_confirmed">Your Order has been confirmed</string>
+    <string name="information_coffee_conferences">Information about Latest Coffee Conferences</string>
+    <string name="news_about_coffee_events">News about Coffee events</string>
 </resources>

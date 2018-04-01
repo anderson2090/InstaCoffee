@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.sweetdeveloper.instacoffee.fragments.ChangePasswordDialogFragment;
 import com.sweetdeveloper.instacoffee.fragments.FavouritesFragment;
+import com.sweetdeveloper.instacoffee.fragments.NewsFragment;
 import com.sweetdeveloper.instacoffee.fragments.OrderHistoryFragment;
 import com.sweetdeveloper.instacoffee.interfaces.ProgressBarListener;
 import com.sweetdeveloper.instacoffee.models.CoffeeMenuItem;
@@ -192,6 +193,11 @@ public class WelcomeActivity extends AppCompatActivity
             firebaseAuth.signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
+        } else if (id == R.id.nav_news) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.welcome_activity_root_layout, new NewsFragment(), "newsFragment")
+                    .commit();
+            mainMenu.setEnabled(true);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
