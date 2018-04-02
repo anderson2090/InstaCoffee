@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/forest_raven__darker"
     tools:context="com.sweetdeveloper.instacoffee.customorder.CustomOrderActivity">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
         android:id="@+id/acidity_text_view"
         android:layout_width="wrap_content"
@@ -57,22 +59,23 @@
         android:src="@drawable/acidity_0" />
 
     <Button
-
+        android:layout_below="@id/acidity_seek_bar"
         android:textColor="@android:color/black"
         android:text="@string/next"
         android:id="@+id/acidity_next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+
         android:layout_margin="10dp"
         android:background="@color/green" />
 
     <SeekBar
+        android:layout_marginTop="20dp"
         android:id="@+id/acidity_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_above="@+id/acidity_next_button"
+        android:layout_below="@+id/acidity_image_view"
 
         android:layout_marginBottom="20dp" />
-
 </RelativeLayout>
+</ScrollView>
