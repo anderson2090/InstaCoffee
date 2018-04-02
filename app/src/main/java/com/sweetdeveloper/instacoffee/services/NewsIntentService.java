@@ -36,6 +36,9 @@ public class NewsIntentService extends IntentService {
 
 //                newsStringBuilder.append(link.text()+"\n");
 //                newsStringBuilder.append(link.attr("href")+"\n");
+                if(link.text().equals("")){
+                    continue;
+                }
                 String newsHeading = link.text();
                 String newsLink = link.attr("href");
                 News news = new News(newsHeading, newsLink);

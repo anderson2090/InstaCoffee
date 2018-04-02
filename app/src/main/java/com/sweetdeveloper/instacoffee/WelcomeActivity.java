@@ -217,6 +217,11 @@ public class WelcomeActivity extends AppCompatActivity
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        if (getSupportFragmentManager().findFragmentById(R.id.welcome_activity_root_layout) == null) {
+            mainMenu.setEnabled(false);
+        } else {
+            mainMenu.setEnabled(true);
+        }
         if (savedInstanceState != null) {
             listState = savedInstanceState.getParcelable("state");
         }
