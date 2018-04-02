@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/forest_raven__darker"
     tools:context="com.sweetdeveloper.instacoffee.customorder.RoastActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/roast_text_view"
             android:layout_width="wrap_content"
@@ -44,9 +46,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                tools:text="@string/dark"
                 android:textColor="@color/green"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                tools:text="@string/dark" />
         </LinearLayout>
 
         <ImageView
@@ -59,23 +61,23 @@
             android:src="@drawable/roast_0" />
 
         <Button
-            android:layout_below="@id/roast_seek_bar"
-            android:textColor="@android:color/black"
-            android:text="@string/add_to_cart"
-            android:id="@+id/body_next_button"
+            android:id="@+id/roast_add_to_cart_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_below="@id/roast_seek_bar"
             android:layout_margin="10dp"
-            android:background="@color/green" />
+            android:background="@color/green"
+
+            android:text="@string/add_to_cart"
+            android:textColor="@android:color/black" />
 
         <SeekBar
-            android:layout_marginTop="20dp"
             android:id="@+id/roast_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/roast_image_view"
+            android:layout_marginBottom="20dp"
 
-            android:layout_marginBottom="20dp" />
+            android:layout_marginTop="20dp" />
     </RelativeLayout>
 </ScrollView>

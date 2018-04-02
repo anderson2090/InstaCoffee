@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import com.sweetdeveloper.instacoffee.R;
 
+import static com.sweetdeveloper.instacoffee.utils.MakeCustomOrder.customOrder;
+
 public class CustomOrderActivity extends AppCompatActivity {
     Button nextButton;
     TextView percentageTextView;
     TextView labelTextView;
     ImageView imageView;
     SeekBar seekBar;
+    String acidity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +31,11 @@ public class CustomOrderActivity extends AppCompatActivity {
         imageView = findViewById(R.id.acidity_image_view);
         seekBar = findViewById(R.id.acidity_seek_bar);
         nextButton = findViewById(R.id.acidity_next_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), WeightActivity.class));
-            }
-        });
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                acidity = String.valueOf(i);
                 percentageTextView.setText(String.valueOf(i) + "%");
                 if (i >= 50) {
                     labelTextView.setText(getString(R.string.bright));
@@ -62,6 +61,14 @@ public class CustomOrderActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                customOrder.setAcidity(acidity);
+                startActivity(new Intent(getApplicationContext(), WeightActivity.class));
             }
         });
     }
