@@ -10,6 +10,6 @@ public class NewsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
        String news = intent.getExtras().getString("news");
-        Log.i("RECIEVERR",news);
+       NewsObservable.getInstance().updateValue(intent);
     }
 }

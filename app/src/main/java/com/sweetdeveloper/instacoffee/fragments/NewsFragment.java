@@ -10,16 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sweetdeveloper.instacoffee.R;
+import com.sweetdeveloper.instacoffee.broadcastrevievers.NewsObservable;
 import com.sweetdeveloper.instacoffee.services.NewsIntentService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements Observer{
 
 
 
@@ -30,6 +34,14 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.news_fragment, container, false);
         Intent intent = new Intent(getActivity(), NewsIntentService.class);
         getActivity().startService(intent);
+        NewsObservable.getInstance().addObserver(this);
         return view;
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        Intent intent = (Intent)o;
+        String news = intent.getExtras().getString("news");
+        Toast.makeText(getActivity(),news,Toast.LENGTH_SHORT).show();
     }
 }
