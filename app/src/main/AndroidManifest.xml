@@ -48,7 +48,21 @@
         <service
             android:name=".services.OrderConfirmationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+        <service
+            android:name=".services.NewsIntentService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".broadcastrevievers.NewsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.instacoffee.news">
+
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
