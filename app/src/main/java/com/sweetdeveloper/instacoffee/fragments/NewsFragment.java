@@ -3,6 +3,7 @@ package com.sweetdeveloper.instacoffee.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,15 +33,13 @@ public class NewsFragment extends Fragment implements Observer {
     TextView newsFragmentTextView;
     ProgressBar progressBar;
     View view;
+    Parcelable listState;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.news_fragment, container, false);
-
-
-
 
         progressBar = view.findViewById(R.id.news_fragment_progress_bar);
         Intent intent = new Intent(getActivity(), NewsIntentService.class);
@@ -61,10 +60,39 @@ public class NewsFragment extends Fragment implements Observer {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
+
 
         // newsFragmentTextView.setText(news);
         progressBar.setVisibility(View.INVISIBLE);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("state", listState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable("state");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listState != null) {
+            if (layoutManager != null) {
+                layoutManager.onRestoreInstanceState(listState);
+            }
+        }
     }
 
     class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerViewAdapter.ViewHolder> {
