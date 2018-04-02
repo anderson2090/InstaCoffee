@@ -59,4 +59,5 @@
     <string name="your_order_has_been_confirmed">Your Order has been confirmed</string>
     <string name="information_coffee_conferences">Information about Latest Coffee Conferences</string>
     <string name="news_about_coffee_events">News about Coffee events</string>
+    <string name="custom_order">Custom Order</string>
 </resources>
