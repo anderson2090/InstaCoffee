@@ -58,11 +58,11 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.instacoffee.news">
-
-                </action>
+                <action android:name="com.instacoffee.news"></action>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".customorder.CustomOrderActivity"></activity>
     </application>
 
 </manifest>
