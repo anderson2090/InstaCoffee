@@ -11,27 +11,27 @@ import android.widget.TextView;
 
 import com.sweetdeveloper.instacoffee.R;
 
-public class CustomOrderActivity extends AppCompatActivity {
-    Button nextButton;
+public class WeightActivity extends AppCompatActivity {
+
     TextView percentageTextView;
     TextView labelTextView;
     ImageView imageView;
     SeekBar seekBar;
+    Button nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_order);
-
-        percentageTextView = findViewById(R.id.acidity_percentage_text_view);
-        labelTextView = findViewById(R.id.acidity_label_text_view);
-        imageView = findViewById(R.id.acidity_image_view);
-        seekBar = findViewById(R.id.acidity_seek_bar);
-        nextButton = findViewById(R.id.acidity_next_button);
+        setContentView(R.layout.activity_weight);
+        percentageTextView = findViewById(R.id.body_percentage_text_view);
+        labelTextView = findViewById(R.id.body_label_text_view);
+        imageView = findViewById(R.id.body_image_view);
+        seekBar = findViewById(R.id.body_seek_bar);
+        nextButton = findViewById(R.id.body_next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), WeightActivity.class));
+                startActivity(new Intent(getApplicationContext(), FlavorActivity.class));
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -39,18 +39,18 @@ public class CustomOrderActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 percentageTextView.setText(String.valueOf(i) + "%");
                 if (i >= 50) {
-                    labelTextView.setText(getString(R.string.bright));
+                    labelTextView.setText(getString(R.string.light));
                 } else if (i < 50) {
-                    labelTextView.setText(getString(R.string.smooth));
+                    labelTextView.setText(getString(R.string.rich));
                 }
                 if (i < 25) {
-                    imageView.setImageResource(R.drawable.acidity_0);
+                    imageView.setImageResource(R.drawable.weight_0);
                 } else if (i > 25 && i < 50) {
-                    imageView.setImageResource(R.drawable.acidity_25);
+                    imageView.setImageResource(R.drawable.weight_25);
                 } else if (i > 50 && i < 75) {
-                    imageView.setImageResource(R.drawable.acidity_75);
+                    imageView.setImageResource(R.drawable.weight_75);
                 } else if (i > 75) {
-                    imageView.setImageResource(R.drawable.acidity_100);
+                    imageView.setImageResource(R.drawable.weight_100);
                 }
             }
 

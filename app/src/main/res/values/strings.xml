@@ -64,4 +64,14 @@
     <string name="smooth">Smooth</string>
     <string name="zero_percent">0%</string>
     <string name="next">Next</string>
+    <string name="weight">Weight</string>
+    <string name="rich">Rich</string>
+    <string name="light">Light</string>
+    <string name="bright">Bright</string>
+    <string name="flavor">Flavor</string>
+    <string name="soft">Soft</string>
+    <string name="bold">Bold</string>
+    <string name="roast">Roast</string>
+    <string name="dark">Dark</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>

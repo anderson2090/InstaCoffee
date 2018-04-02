@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/forest_raven__darker"
+    tools:context="com.sweetdeveloper.instacoffee.customorder.RoastActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/roast_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/roast"
+            android:textColor="@color/green"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/roast_percentage_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/roast_text_view"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/roast_percentage_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/zero_percent"
+                android:textColor="@color/green"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/roast_label_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="@string/dark"
+                android:textColor="@color/green"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/roast_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/roast_percentage_layout"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/acidity"
+            android:src="@drawable/roast_0" />
+
+        <Button
+            android:layout_below="@id/roast_seek_bar"
+            android:textColor="@android:color/black"
+            android:text="@string/add_to_cart"
+            android:id="@+id/body_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:background="@color/green" />
+
+        <SeekBar
+            android:layout_marginTop="20dp"
+            android:id="@+id/roast_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/roast_image_view"
+
+            android:layout_marginBottom="20dp" />
+    </RelativeLayout>
+</ScrollView>
