@@ -2,6 +2,7 @@ package com.sweetdeveloper.instacoffee.fragments;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -99,7 +100,8 @@ public class NewsFragment extends Fragment implements Observer {
 
 
         ArrayList<News> newsList = new ArrayList<>();
-        NewsRecyclerViewAdapter(ArrayList<News> newsList){
+
+        NewsRecyclerViewAdapter(ArrayList<News> newsList) {
             this.newsList = newsList;
         }
 
@@ -127,6 +129,15 @@ public class NewsFragment extends Fragment implements Observer {
             public ViewHolder(View itemView) {
                 super(itemView);
                 newsHeadingTextView = itemView.findViewById(R.id.news_heading_text_view);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String url = newsList.get(getAdapterPosition()).getLink();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }
