@@ -74,8 +74,10 @@ public class NewsFragment extends Fragment implements Observer {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        listState = layoutManager.onSaveInstanceState();
-        outState.putParcelable("state", listState);
+        if (layoutManager != null) {
+            listState = layoutManager.onSaveInstanceState();
+            outState.putParcelable("state", listState);
+        }
     }
 
     @Override
