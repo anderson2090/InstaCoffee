@@ -41,7 +41,9 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
         holder.itemNameTextView.setText(menuItems.get(position).getName());
-        Picasso.get().load(menuItems.get(position).getImage())
+        Picasso.get()
+                .load(menuItems.get(position).getImage())
+                .resize(250,130)
                 .placeholder(R.drawable.progress_animation)
                 .error(R.drawable.img_placeholder)
                 .into(holder.coffeeImage);
