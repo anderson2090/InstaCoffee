@@ -11,4 +11,9 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">3dp</dimen>
+    <dimen name="card_content_padding">4dp</dimen>
+    <dimen name="card_relative_layout_padding">16dp</dimen>
+    <dimen name="cart_Item_name_text_view_size">20sp</dimen>
 </resources>
