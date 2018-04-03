@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.firebase.database.DatabaseReference;
@@ -114,18 +115,22 @@ public class DetailActivity extends RootActivity {
             @Override
             public void onClick(View view) {
                 if (!dbAdapter.IsDataAlreadyInDB(name)) {
-                    //  dbAdapter.addItem(name, image, price, description);
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(DBAdapter.COLUMN_NAME, name);
-                    contentValues.put(DBAdapter.COLUMN_IMAGE, image);
-                    contentValues.put(DBAdapter.COLUMN_PRICE, price);
-                    contentValues.put(DBAdapter.COLUMN_DESCRIPTION, description);
+                    if(dbAdapter.getRowCount()>=4){
+                        Toast.makeText(getApplicationContext(),"You cannot add more than four favourite items",Toast.LENGTH_SHORT).show();
+                    }else {
+                        //  dbAdapter.addItem(name, image, price, description);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DBAdapter.COLUMN_NAME, name);
+                        contentValues.put(DBAdapter.COLUMN_IMAGE, image);
+                        contentValues.put(DBAdapter.COLUMN_PRICE, price);
+                        contentValues.put(DBAdapter.COLUMN_DESCRIPTION, description);
 
-                    contentResolver.insert(ItemProvider.CONTENT_URI, contentValues);
+                        contentResolver.insert(ItemProvider.CONTENT_URI, contentValues);
 
 
-                    informUserViaToast(getString(R.string.added_to_favourites));
-                    addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
+                        informUserViaToast(getString(R.string.added_to_favourites));
+                        addFavouritesImageView.setImageResource(R.drawable.ic_favorite_green);
+                    }
                 } else {
                     // dbAdapter.deleteItem(name);
 

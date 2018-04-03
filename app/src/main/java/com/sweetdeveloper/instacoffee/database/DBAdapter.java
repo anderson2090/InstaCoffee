@@ -166,6 +166,14 @@ public class DBAdapter {
 
         return coffeeMenuItemsNames;
     }
+    public int getRowCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_FAVOURITES;
+        SQLiteDatabase db = new SQLiteDBHelper(this.context, DATABASE_NAME, null, DATABASE_VERSION).getWritableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
 
     //Content provider methods
     public long insert(ContentValues contentValues) {

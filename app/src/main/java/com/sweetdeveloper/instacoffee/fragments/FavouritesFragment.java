@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sweetdeveloper.instacoffee.R;
 import com.sweetdeveloper.instacoffee.contentprovider.ItemProvider;
@@ -26,7 +28,7 @@ public class FavouritesFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     MenuRecyclerAdapter adapter;
 
-    DBAdapter dbAdapter;
+  //  DBAdapter dbAdapter;
 
     @Nullable
     @Override
@@ -37,7 +39,8 @@ public class FavouritesFragment extends Fragment {
         Cursor cursor = getActivity().getContentResolver().query(ItemProvider.CONTENT_URI,
                 null, null, null, null, null);
 
-        // dbAdapter = DBAdapter.getDbAdapterInstance(getActivity());
+        //dbAdapter = DBAdapter.getDbAdapterInstance(getActivity());
+
         //ArrayList<CoffeeMenuItem> coffeeMenuItems = dbAdapter.getAllRows();
         ArrayList<CoffeeMenuItem> coffeeMenuItems = cursor2items(cursor);
 
