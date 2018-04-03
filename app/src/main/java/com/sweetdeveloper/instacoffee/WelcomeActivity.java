@@ -61,6 +61,8 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        progressBar = findViewById(R.id.welcome_activity_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
         navigationView = findViewById(R.id.nav_view);
         navigationMenu = navigationView.getMenu();
         mainMenu = navigationMenu.findItem(R.id.nav_menu);
@@ -93,6 +95,7 @@ public class WelcomeActivity extends AppCompatActivity
                 if (savedInstanceState != null) {
                     layoutManager.onRestoreInstanceState(listState);
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -101,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity
             }
         });
 
-        progressBar = findViewById(R.id.welcome_activity_progress_bar);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

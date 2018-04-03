@@ -42,6 +42,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
     public void onBindViewHolder(@NonNull MenuRecyclerAdapter.ViewHolder holder, int position) {
         holder.itemNameTextView.setText(menuItems.get(position).getName());
         Picasso.get().load(menuItems.get(position).getImage())
+                .placeholder(R.drawable.progress_animation)
                 .error(R.drawable.img_placeholder)
                 .into(holder.coffeeImage);
     }
@@ -72,7 +73,7 @@ public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapte
                     intent.putExtra("image", menuItems.get(getAdapterPosition()).getImage());
                     intent.putExtra("key", menuItems.get(getAdapterPosition()).getKey());
                     intent.putExtra("price", menuItems.get(getAdapterPosition()).getPrice());
-                    intent.putExtra("description",menuItems.get(getAdapterPosition()).getDescription());
+                    intent.putExtra("description", menuItems.get(getAdapterPosition()).getDescription());
                     context.startActivity(intent);
 
                 }
