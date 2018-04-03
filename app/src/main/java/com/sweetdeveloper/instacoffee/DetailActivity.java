@@ -116,7 +116,7 @@ public class DetailActivity extends RootActivity {
             public void onClick(View view) {
                 if (!dbAdapter.IsDataAlreadyInDB(name)) {
                     if(dbAdapter.getRowCount()>=4){
-                        Toast.makeText(getApplicationContext(),"You cannot add more than four favourite items",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),getString(R.string.not_more_than_four),Toast.LENGTH_SHORT).show();
                     }else {
                         //  dbAdapter.addItem(name, image, price, description);
                         ContentValues contentValues = new ContentValues();
