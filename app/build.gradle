@@ -5,7 +5,7 @@ android {
         release {
             keyAlias 'mykey'
             keyPassword 'megaman2050'
-            storeFile file('/home/usama/UdacityProjects/InstaCoffee/app/key/mykey.jks')
+            storeFile file('key/mykey.jks')
             storePassword 'megaman2050'
         }
     }
