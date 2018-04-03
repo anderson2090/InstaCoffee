@@ -23,6 +23,7 @@
     <include layout="@layout/content_welcome" />
 
     <android.support.design.widget.FloatingActionButton
+        android:contentDescription="@string/press_this_button_to_see_items_in_your_cart"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

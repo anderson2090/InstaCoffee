@@ -78,4 +78,6 @@
     <string name="retry">Retry</string>
     <string name="retrying">Retrying...</string>
     <string name="not_more_than_four">You cannot add more than four favourite items</string>
+    <string name="press_this_button_to_see_items_in_your_cart">Press this button to see items in your cart</string>
+    <string name="add_item_in_cart">Press this button to add this item in cart</string>
 </resources>

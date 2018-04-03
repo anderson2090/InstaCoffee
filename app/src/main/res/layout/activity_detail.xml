@@ -45,6 +45,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:contentDescription="@string/add_item_in_cart"
         android:id="@+id/detail_activity_cart_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

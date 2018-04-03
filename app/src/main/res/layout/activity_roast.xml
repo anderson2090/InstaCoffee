@@ -57,7 +57,7 @@
             android:layout_height="300dp"
             android:layout_below="@id/roast_percentage_layout"
             android:layout_centerInParent="true"
-            android:contentDescription="@string/acidity"
+            android:contentDescription="@string/roast"
             android:src="@drawable/roast_0" />
 
         <Button
