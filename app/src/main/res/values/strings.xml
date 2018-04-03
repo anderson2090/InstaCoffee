@@ -74,4 +74,7 @@
     <string name="roast">Roast</string>
     <string name="dark">Dark</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="please_check_connection">Please check your internet connection</string>
+    <string name="retry">Retry</string>
+    <string name="retrying">Retrying...</string>
 </resources>

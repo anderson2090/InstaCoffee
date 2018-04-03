@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +39,11 @@ import com.sweetdeveloper.instacoffee.recyclerviews.MenuRecyclerAdapter;
 
 import java.util.ArrayList;
 
+import static com.sweetdeveloper.instacoffee.utils.NetworkHelper.hasNetworkConnection;
+
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProgressBarListener {
-
+    RelativeLayout welcomeActivityRootLayout;
     TextView userName, userEmail;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -61,6 +65,7 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        welcomeActivityRootLayout = findViewById(R.id.welcome_activity_root_layout);
         progressBar = findViewById(R.id.welcome_activity_progress_bar);
         progressBar.setVisibility(View.VISIBLE);
         navigationView = findViewById(R.id.nav_view);
@@ -103,8 +108,6 @@ public class WelcomeActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), databaseError.getDetails(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -191,10 +194,28 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
         } else if (id == R.id.nav_news) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.welcome_activity_root_layout, new NewsFragment(), "newsFragment")
-                    .commit();
-            mainMenu.setEnabled(true);
+            if (!hasNetworkConnection(getApplicationContext())) {
+                Snackbar.make(welcomeActivityRootLayout,
+                        R.string.please_check_connection,
+                        Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                        //Reload Current Activity
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                }).show();
+
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.welcome_activity_root_layout, new NewsFragment(), "newsFragment")
+                        .commit();
+                mainMenu.setEnabled(true);
+            }
         } else if (id == R.id.nav_custom_order) {
             startActivity(new Intent(getApplicationContext(), CustomOrderActivity.class));
         }
